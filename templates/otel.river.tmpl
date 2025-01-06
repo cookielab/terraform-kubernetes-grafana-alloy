@@ -1,0 +1,5 @@
+otelcol.exporter.otlphttp "default" {
+  client {
+    endpoint = env("GRAFANA_AGENT_OTEL_ENDPOINT")
+  }
+}

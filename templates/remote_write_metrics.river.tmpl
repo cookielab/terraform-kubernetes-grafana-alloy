@@ -1,0 +1,14 @@
+prometheus.remote_write "default" {
+  endpoint {
+    url = env("GRAFANA_AGENT_METRICS_ENDPOINT")
+
+    headers = {
+      "X-Scope-OrgID" = env("GRAFANA_AGENT_METRICS_TENANT"),
+    }
+  }
+
+  external_labels = {
+    k8s_cluster_name   = env("GRAFANA_AGENT_K8S_CLUSTER"),
+    kubernetes_cluster = env("GRAFANA_AGENT_K8S_CLUSTER"),
+  }
+}

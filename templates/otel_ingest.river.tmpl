@@ -1,0 +1,67 @@
+declare "otel_ingest" {
+  argument "metrics_output" {
+    optional = false
+    comment  = "Where to send metrics"
+  }
+
+  argument "traces_output" {
+    optional = false
+    comment  = "Where to send traces"
+  }
+
+  argument "scrape_interval" {
+    optional = true
+    default  = "1m"
+    comment  = "How often to scrape"
+  }
+
+  argument "scrape_timeout" {
+    optional = true
+    default  = "30s"
+    comment  = "How long to wait before timing out"
+  }
+
+  otelcol.receiver.otlp "ingest" {
+    http {
+      endpoint = "0.0.0.0:${otel_http_port}"
+    }
+    grpc {
+      endpoint = "0.0.0.0:${otel_grpc_port}"
+    }
+
+    output {
+      traces  = [otelcol.processor.attributes.ingest.input]
+      metrics = [otelcol.processor.attributes.ingest.input]
+    }
+  }
+
+  otelcol.processor.attributes "ingest" {
+    action {
+      action = "upsert"
+      key    = "k8s.cluster.name"
+      value  = env("GRAFANA_AGENT_K8S_CLUSTER")
+    }
+
+    output {
+      traces  = [otelcol.processor.k8sattributes.ingest.input]
+      metrics = [otelcol.processor.k8sattributes.ingest.input]
+    }
+  }
+
+  otelcol.processor.k8sattributes "ingest" {
+    pod_association {
+      source {
+        from = "connection"
+      }
+    }
+
+    passthrough = true
+
+    output {
+      traces  = [argument.traces_output.value]
+      metrics = [argument.metrics_output.value]
+    }
+  }
+}
+
+// vim: set ft=hcl
