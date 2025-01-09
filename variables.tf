@@ -185,9 +185,23 @@ variable "k8s_pods" {
   description = "Grafana Agent scrape settings for K8S pods"
 }
 
+variable "loki" {
+  type = object({
+    url                    = optional(string, "http://loki:3100")
+    tenant_id              = optional(string, "default")
+    username               = optional(string, "admin")
+    password               = optional(string, "admin")
+    scrape_pods_global     = optional(bool, false)
+    scrape_pods_annotation = optional(string, "loki.logs.enabled")
+  })
+  default     = {}
+  description = "Grafana Agent scrape settings for Loki logs"
+}
+
 variable "integrations" {
   type = object({
     otel_collector       = optional(bool, false)
+    loki_logs            = optional(bool, false)
     k8s_cadvisor         = optional(bool, false)
     k8s_kubelet          = optional(bool, false)
     k8s_mimir_rules      = optional(bool, false)

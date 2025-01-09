@@ -8,6 +8,12 @@ resource "kubernetes_secret_v1" "grafana_alloy" {
     var.integrations.otel_collector ? {
       GRAFANA_AGENT_OTEL_ENDPOINT = var.otel.endpoint
     } : {},
+    var.integrations.loki_logs ? {
+      LOKI_URL       = var.loki.url
+      LOKI_TENANT_ID = var.loki.tenant_id
+      LOKI_USERNAME  = var.loki.username
+      LOKI_PASSWORD  = var.loki.password
+    } : {},
     {
       GRAFANA_AGENT_METRICS_ENDPOINT     = local.url_metrics_write
       GRAFANA_AGENT_MIMIR_RULES_ENDPOINT = local.url_mimir_rules

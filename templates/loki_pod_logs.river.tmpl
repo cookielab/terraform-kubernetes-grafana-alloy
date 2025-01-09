@@ -1,0 +1,47 @@
+declare "loki_pod_logs" {
+    discovery.kubernetes "pods" {
+        role = "pod"
+    }
+
+    discovery.relabel "pods" {
+        targets = discovery.kubernetes.pods.targets
+        %{ if scrape_pods_global  == false}
+        // Keep only annotated pods
+        rule {
+            action        = "keep"
+            source_labels = ["__meta_kubernetes_pod_annotation_${scrape_pods_annotation}"]
+            regex         = "true"
+        }
+        %{ endif }
+    }
+
+    local.file_match "pod_logs" {
+        path_targets = discovery.relabel.pods.output
+    }
+
+    loki.process "pod_logs" {
+        forward_to = [loki.write.logs_default.receiver]
+        stage.docker {}
+        stage.cri {}
+    }
+
+    loki.source.file "pod_logs" {
+        targets = local.file_match.pod_logs.targets
+        forward_to = [loki.process.pod_logs.receiver]
+    }
+    loki.write "logs_default" {
+        endpoint {
+            url       = sys.env("LOKI_URL")
+            tenant_id = sys.env("LOKI_TENANT_ID")
+            basic_auth {
+                username = sys.env("LOKI_USERNAME")
+                password = sys.env("LOKI_PASSWORD")
+            }
+        }
+        external_labels = {
+            aws_account         = sys.env("AWS_ACCOUNT"),
+            aws_region          = sys.env("AWS_REGION"),
+            k8s.cluster.name    = sys.env("GRAFANA_AGENT_K8S_CLUSTER")
+        }
+    }
+}

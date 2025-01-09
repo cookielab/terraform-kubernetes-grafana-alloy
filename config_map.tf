@@ -32,6 +32,10 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
             otel_grpc_port                 = var.otel.grpc_port
             otel_service_graphs_dimensions = var.otel.service_graphs_dimensions
           }) : "",
+          var.integrations.loki_logs ? templatefile("${path.module}/templates/loki_pod_logs.river.tmpl", {
+            scrape_pods_global     = var.loki.scrape_pods_global
+            scrape_pods_annotation = var.loki.scrape_pods_annotation
+          }) : "",
         ],
       ] : []),
       flatten(var.config),
