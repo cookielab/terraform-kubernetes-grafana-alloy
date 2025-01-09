@@ -82,8 +82,10 @@ variable "metrics" {
 
 variable "k8s_pods" {
   type = object({
-    scrape_interval = optional(string, "1m")
-    scrape_timeout  = optional(string, "30s")
+    scrape_interval        = optional(string, "1m")
+    scrape_timeout         = optional(string, "30s")
+    scrape_pods_global     = optional(bool, false)
+    scrape_pods_annotation = optional(string, "prometheus_io_scrape")
   })
   default     = {}
   description = "Grafana Agent scrape timings for K8S pods"

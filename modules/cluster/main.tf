@@ -12,6 +12,7 @@ module "grafana_alloy" {
   image                   = var.image
   metrics                 = var.metrics
   replicas                = var.replicas
+  k8s_pods                = var.k8s_pods
   integrations = {
     k8s_cadvisor = true
     k8s_kubelet  = true

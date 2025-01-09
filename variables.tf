@@ -176,6 +176,15 @@ variable "global_tolerations" {
   description = "Global tolerations for the Grafana Agent"
 }
 
+variable "k8s_pods" {
+  type = object({
+    scrape_pods_global     = optional(bool, false)
+    scrape_pods_annotation = optional(string, "prometheus_io_scrape")
+  })
+  default     = {}
+  description = "Grafana Agent scrape settings for K8S pods"
+}
+
 variable "integrations" {
   type = object({
     otel_collector       = optional(bool, false)

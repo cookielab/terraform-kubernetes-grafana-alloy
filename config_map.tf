@@ -11,7 +11,10 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
           var.integrations.k8s_cadvisor ? file("${path.module}/templates/k8s_cadvisor.river.tmpl") : "",
           var.integrations.k8s_kubelet ? file("${path.module}/templates/k8s_kubelet.river.tmpl") : "",
           var.integrations.k8s_mimir_rules ? file("${path.module}/templates/k8s_mimir_rules.river.tmpl") : "",
-          var.integrations.k8s_pods ? file("${path.module}/templates/k8s_pods.river.tmpl") : "",
+          var.integrations.k8s_pods ? templatefile("${path.module}/templates/k8s_pods.river.tmpl", {
+            scrape_pods_global     = var.k8s_pods.scrape_pods_global
+            scrape_pods_annotation = var.k8s_pods.scrape_pods_annotation
+          }) : "",
           var.integrations.k8s_services ? file("${path.module}/templates/k8s_services.river.tmpl") : "",
           var.integrations.node_exporter ? file("${path.module}/templates/node_exporter.river.tmpl") : "",
           var.integrations.aws_alb ? file("${path.module}/templates/aws_alb.river.tmpl") : "",
