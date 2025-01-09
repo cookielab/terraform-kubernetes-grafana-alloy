@@ -12,16 +12,20 @@ The module is designed for flexible deployment of Grafana Alloy with different c
 - **AWS Module** - Collects metrics from AWS services via CloudWatch
 - **Single Module** - Collects traces and metrics using OpenTelemetry protocol, Prometheus Alert rules which needs to be single point of processing
 - **OpenTelemetry Collector Module** - Collects telemetry data (traces and metrics) using the OpenTelemetry protocol and forwards them to Grafana Tempo and Mimir backends
+- **Loki Logs Module** - Collects logs from Kubernetes pods and forwards them to Loki with support for annotation-based filtering and multi-tenancy
 
 
 ## Architecture
 
 The module supports:
 
-- Scaling to multiple replicas for high availability
+- Scaling to multiple replicas for high availability 
 - Clustering for load distribution
 - Flexible configuration using River format
 - Collection of metrics to Prometheus-compatible endpoints
+- Collection of logs to Loki
+- Collection of traces and metrics via OpenTelemetry protocol
+- Support for OpenTelemetry Collector deployment and configuration
 - Configurable resource limits for agents
 
 ## Modules
@@ -34,6 +38,7 @@ The module contains the following submodules:
 - `aws` - For collecting AWS CloudWatch metrics
 - `single` - For collecting OpenTelemetry traces and metrics, Prometheus Alert rules which needs to be single point of processing
 - `otel-collector` - For collecting OpenTelemetry traces and metrics using the OpenTelemetry Collector protocol
+- `loki-logs` - For collecting and forwarding Kubernetes pod logs to Loki
 
 Each module can be used independently or in combination based on requirements.
 
