@@ -1,6 +1,6 @@
 # Grafana Alloy Terraform Module
 
-This module deploys Grafana Alloy to collect metrics/traces from various sources in a Kubernetes cluster.
+This module deploys Grafana Alloy to collect metrics/traces/logs from various sources in a Kubernetes cluster.
 
 ## Overview
 
