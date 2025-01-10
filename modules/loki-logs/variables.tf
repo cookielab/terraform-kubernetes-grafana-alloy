@@ -108,3 +108,9 @@ variable "stability_level" {
   default     = "generally-available"
   description = "Stability level for the Grafana Agent"
 }
+
+variable "live_debug" {
+  type        = bool
+  default     = false
+  description = "Enable live debug for the Grafana Agent"
+}

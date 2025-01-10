@@ -12,6 +12,7 @@ module "grafana_alloy" {
   image                   = var.image
   metrics                 = var.metrics
   stability_level         = var.stability_level
+  live_debug              = var.live_debug
   replicas                = 1
   integrations = {
     loki_logs = true

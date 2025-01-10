@@ -37,6 +37,7 @@ resource "helm_release" "grafana_alloy" {
       }]
       } : {}, {
       mode            = "flow"
+      liveDebug       = var.live_debug
       securityContext = var.kubernetes_security_context
       clustering = {
         enabled = var.clustering_enabled
