@@ -36,8 +36,10 @@ resource "helm_release" "grafana_alloy" {
         protocol   = "TCP"
       }]
       } : {}, {
-      mode            = "flow"
-      liveDebug       = var.live_debug
+      mode = "flow"
+      liveDebug = {
+        enabled = var.live_debug
+      }
       securityContext = var.kubernetes_security_context
       clustering = {
         enabled = var.clustering_enabled
