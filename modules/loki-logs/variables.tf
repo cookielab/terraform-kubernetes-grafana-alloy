@@ -102,3 +102,9 @@ variable "global_tolerations" {
   default     = []
   description = "Global tolerations for the Grafana Agent"
 }
+
+variable "stability_level" {
+  type        = string
+  default     = "generally-available"
+  description = "Stability level for the Grafana Agent"
+}

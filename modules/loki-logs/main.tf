@@ -11,6 +11,7 @@ module "grafana_alloy" {
   kubernetes_namespace    = var.kubernetes_namespace
   image                   = var.image
   metrics                 = var.metrics
+  stability_level         = var.stability_level
   replicas                = 1
   integrations = {
     loki_logs = true
