@@ -89,14 +89,14 @@ variable "controller_resources" {
 
 variable "chart_version" {
   type        = string
-  description = "Helm chart version of Grafana Agent"
-  default     = "0.38.0"
+  description = "Helm chart version of Grafana Alloy"
+  default     = "0.12.5"
 }
 
 variable "image" {
   type = object({
     registry   = optional(string, "docker.io")
-    repository = optional(string, "grafana/agent")
+    repository = optional(string, "grafana/alloy")
   })
   default     = {}
   description = "Image registry for Grafana Agent. This is meant to be used with custom pull-through proxies/registries."
@@ -107,6 +107,7 @@ variable "metrics" {
     endpoint     = optional(string, "http://mimir:9090")
     tenant       = optional(string, "default")
     backend_type = optional(string, "mimir")
+    ssl_enabled  = optional(bool, true)
   })
   default     = {}
   description = "Grafana Agent metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API."

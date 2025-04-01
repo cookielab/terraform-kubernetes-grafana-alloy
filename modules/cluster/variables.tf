@@ -70,6 +70,7 @@ variable "metrics" {
     endpoint     = optional(string, "http://mimir:9090")
     tenant       = optional(string, "default")
     backend_type = optional(string, "mimir")
+    ssl_enabled  = optional(bool, true)
   })
   default     = {}
   description = "Grafana Agent metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API."
