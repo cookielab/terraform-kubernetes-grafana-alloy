@@ -149,3 +149,84 @@ variable "global_tolerations" {
   default     = []
   description = "Global tolerations for the Grafana Alloy"
 }
+
+variable "integrations" {
+  type = object({
+    otel_collector       = optional(bool, false)
+    loki_logs            = optional(bool, false)
+    k8s_cadvisor         = optional(bool, false)
+    k8s_kubelet          = optional(bool, false)
+    k8s_mimir_rules      = optional(bool, false)
+    k8s_pods             = optional(bool, false)
+    k8s_services         = optional(bool, false)
+    node_exporter        = optional(bool, false)
+    aws_alb              = optional(bool, true)
+    aws_rds              = optional(bool, true)
+    aws_sqs              = optional(bool, true)
+    aws_mq               = optional(bool, true)
+    aws_opensearch       = optional(bool, true)
+    remote_write_metrics = optional(bool, true)
+    kafka_jmx_metrics    = optional(bool, false)
+  })
+  default     = {}
+  description = "Grafana Alloy integrations configuration"
+}
+
+variable "aws_alb" {
+  type = object({
+    scrape_interval = optional(string, "1m")
+    scrape_timeout  = optional(string, "30s")
+    scrape_period   = optional(string, "1m")
+    region          = optional(string, "eu-west-1")
+    search_tags     = optional(map(string), {})
+  })
+  default     = {}
+  description = "Grafana Alloy scrape settings for AWS ALB"
+}
+
+variable "aws_rds" {
+  type = object({
+    scrape_interval = optional(string, "1m")
+    scrape_timeout  = optional(string, "30s")
+    scrape_period   = optional(string, "1m")
+    region          = optional(string, "eu-west-1")
+    search_tags     = optional(map(string), {})
+  })
+  default     = {}
+  description = "Grafana Alloy scrape settings for AWS RDS"
+}
+
+variable "aws_sqs" {
+  type = object({
+    scrape_interval = optional(string, "1m")
+    scrape_timeout  = optional(string, "30s")
+    scrape_period   = optional(string, "1m")
+    region          = optional(string, "eu-west-1")
+    search_tags     = optional(map(string), {})
+  })
+  default     = {}
+  description = "Grafana Alloy scrape settings for AWS SQS"
+}
+
+variable "aws_mq" {
+  type = object({
+    scrape_interval = optional(string, "1m")
+    scrape_timeout  = optional(string, "30s")
+    scrape_period   = optional(string, "1m")
+    region          = optional(string, "eu-west-1")
+    search_tags     = optional(map(string), {})
+  })
+  default     = {}
+  description = "Grafana Alloy scrape settings for AWS MQ"
+}
+
+variable "aws_opensearch" {
+  type = object({
+    scrape_interval = optional(string, "1m")
+    scrape_timeout  = optional(string, "30s")
+    scrape_period   = optional(string, "1m")
+    region          = optional(string, "eu-west-1")
+  })
+  default     = {}
+  description = "Grafana Alloy scrape settings for AWS OpenSearch"
+}

@@ -17,11 +17,37 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
           }) : "",
           var.integrations.k8s_services ? file("${path.module}/templates/k8s_services.river.tmpl") : "",
           var.integrations.node_exporter ? file("${path.module}/templates/node_exporter.river.tmpl") : "",
-          var.integrations.aws_alb ? file("${path.module}/templates/aws_alb.river.tmpl") : "",
-          var.integrations.aws_rds ? file("${path.module}/templates/aws_rds.river.tmpl") : "",
-          var.integrations.aws_sqs ? file("${path.module}/templates/aws_sqs.river.tmpl") : "",
-          var.integrations.aws_mq ? file("${path.module}/templates/aws_mq.river.tmpl") : "",
-          var.integrations.aws_opensearch ? file("${path.module}/templates/aws_opensearch.river.tmpl") : "",
+          var.integrations.aws_alb ? templatefile("${path.module}/templates/aws_alb.river.tmpl", {
+            scrape_interval = var.aws_alb.scrape_interval
+            scrape_timeout  = var.aws_alb.scrape_timeout
+            scrape_period   = var.aws_alb.scrape_period
+            region          = var.aws_alb.region
+          }) : "",
+          var.integrations.aws_rds ? templatefile("${path.module}/templates/aws_rds.river.tmpl", {
+            scrape_interval = var.aws_rds.scrape_interval
+            scrape_timeout  = var.aws_rds.scrape_timeout
+            scrape_period   = var.aws_rds.scrape_period
+            region          = var.aws_rds.region
+            search_tags     = var.aws_rds.search_tags
+          }) : "",
+          var.integrations.aws_sqs ? templatefile("${path.module}/templates/aws_sqs.river.tmpl", {
+            scrape_interval = var.aws_sqs.scrape_interval
+            scrape_timeout  = var.aws_sqs.scrape_timeout
+            scrape_period   = var.aws_sqs.scrape_period
+            region          = var.aws_sqs.region
+          }) : "",
+          var.integrations.aws_mq ? templatefile("${path.module}/templates/aws_mq.river.tmpl", {
+            scrape_interval = var.aws_mq.scrape_interval
+            scrape_timeout  = var.aws_mq.scrape_timeout
+            scrape_period   = var.aws_mq.scrape_period
+            region          = var.aws_mq.region
+          }) : "",
+          var.integrations.aws_opensearch ? templatefile("${path.module}/templates/aws_opensearch.river.tmpl", {
+            scrape_interval = var.aws_opensearch.scrape_interval
+            scrape_timeout  = var.aws_opensearch.scrape_timeout
+            scrape_period   = var.aws_opensearch.scrape_period
+            region          = var.aws_opensearch.region
+          }) : "",
           var.integrations.remote_write_metrics ? file("${path.module}/templates/remote_write_metrics.river.tmpl") : "",
           var.integrations.kafka_jmx_metrics ? templatefile("${path.module}/templates/kafka_jmx_metrics.river.tmpl", {
             addresses             = var.kafka_jmx_metrics.kafka_broker_list
