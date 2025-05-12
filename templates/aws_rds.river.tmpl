@@ -71,6 +71,78 @@ declare "aws_rds" {
         statistics = ["Average"]
         period     = argument.scrape_period.value
       }
+
+      metric {
+        name       = "FreeableMemory"
+        statistics = ["Average"]
+        period     = argument.scrape_period.value
+      }
+
+      metric {
+        name       = "ReadLatency"
+        statistics = ["Average"]
+        period     = argument.scrape_period.value
+      }
+
+      metric {
+        name       = "WriteLatency"
+        statistics = ["Average"]
+        period     = argument.scrape_period.value
+      }
+
+      metric {
+        name       = "FreeStorageSpace"
+        statistics = ["Average"]
+        period     = argument.scrape_period.value
+      }
+
+      metric {
+        name       = "Deadlocks"
+        statistics = ["Sum"]
+        period     = argument.scrape_period.value
+      }
+
+      metric {
+        name       = "DiskQueueDepth"
+        statistics = ["Average"]
+        period     = argument.scrape_period.value
+      }
+
+      metric {
+        name       = "WriteIOPS"
+        statistics = ["Average"]
+        period     = argument.scrape_period.value
+      }
+
+      metric {
+        name       = "NetworkReceiveThroughput"
+        statistics = ["Average"]
+        period     = argument.scrape_period.value
+      }
+
+      metric {
+        name       = "NetworkTransmitThroughput"
+        statistics = ["Average"]
+        period     = argument.scrape_period.value
+      }
+
+      metric {
+        name       = "SwapUsage"
+        statistics = ["Average"]
+        period     = argument.scrape_period.value
+      }
+
+      metric {
+        name       = "ACUUtilization"
+        statistics = ["Average"]
+        period     = argument.scrape_period.value
+      }
+
+      metric {
+        name       = "RDSToAuroraPostgreSQLReplicaLag"
+        statistics = ["Average"]
+        period     = argument.scrape_period.value
+      }
     }
   }
 
