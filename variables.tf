@@ -232,3 +232,59 @@ variable "live_debug" {
   default     = false
   description = "Enable live debug for the Grafana Alloy"
 }
+
+variable "aws_alb" {
+  type = object({
+    scrape_interval = optional(string, "1m")
+    scrape_timeout  = optional(string, "30s")
+    scrape_period   = optional(string, "1m")
+    region          = optional(string, "eu-west-1")
+  })
+  default     = {}
+  description = "Grafana Alloy scrape settings for AWS ALB"
+}
+
+variable "aws_rds" {
+  type = object({
+    scrape_interval = optional(string, "1m")
+    scrape_timeout  = optional(string, "30s")
+    scrape_period   = optional(string, "1m")
+    region          = optional(string, "eu-west-1")
+    search_tags     = optional(map(string), {})
+  })
+  default     = {}
+  description = "Grafana Alloy scrape settings for AWS RDS"
+}
+
+variable "aws_sqs" {
+  type = object({
+    scrape_interval = optional(string, "1m")
+    scrape_timeout  = optional(string, "30s")
+    scrape_period   = optional(string, "1m")
+    region          = optional(string, "eu-west-1")
+  })
+  default     = {}
+  description = "Grafana Alloy scrape settings for AWS SQS"
+}
+
+variable "aws_mq" {
+  type = object({
+    scrape_interval = optional(string, "1m")
+    scrape_timeout  = optional(string, "30s")
+    scrape_period   = optional(string, "1m")
+    region          = optional(string, "eu-west-1")
+  })
+  default     = {}
+  description = "Grafana Alloy scrape settings for AWS MQ"
+}
+
+variable "aws_opensearch" {
+  type = object({
+    scrape_interval = optional(string, "1m")
+    scrape_timeout  = optional(string, "30s")
+    scrape_period   = optional(string, "1m")
+    region          = optional(string, "eu-west-1")
+  })
+  default     = {}
+  description = "Grafana Alloy scrape settings for AWS OpenSearch"
+}

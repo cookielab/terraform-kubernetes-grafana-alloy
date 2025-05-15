@@ -11,30 +11,30 @@ declare "aws_sqs" {
 
   argument "scrape_interval" {
     optional = true
-    default  = "1m"
+    default  = ${scrape_interval}
     comment  = "How often to scrape"
   }
 
   argument "scrape_timeout" {
     optional = true
-    default  = "30s"
+    default  = ${scrape_timeout}
     comment  = "How long to wait before timing out"
   }
 
   argument "scrape_period" {
     optional = true
-    default  = "1m"
+    default  = ${scrape_period}
     comment  = "Scrape period settings"
   }
 
   argument "search_tags" {
     optional = true
-    default  = {}
+    default  = ${search_tags}
     comment  = "Search tags for tag-based filtering"
   }
 
   prometheus.exporter.cloudwatch "sqs" {
-    sts_region = "eu-west-1"
+    sts_region = ${region}
     fips_disabled = true
     discovery {
       type        = "AWS/SQS"

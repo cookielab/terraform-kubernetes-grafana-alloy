@@ -14,13 +14,7 @@ module "grafana_alloy" {
   replicas                = 1
   iam_role_arn            = var.iam_role_arn
   global_tolerations      = var.global_tolerations
-  integrations = {
-    aws_opensearch = true
-    aws_alb        = true
-    aws_rds        = true
-    aws_mq         = true
-    aws_sqs        = true
-  }
+  integrations            = var.integrations
   otel = {
     enabled = false
   }
