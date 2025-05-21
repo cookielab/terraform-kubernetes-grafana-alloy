@@ -121,3 +121,9 @@ variable "live_debug" {
   default     = false
   description = "Enable live debug for the Grafana Alloy"
 }
+
+variable "clustering_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable clustering for the Grafana Alloy"
+}

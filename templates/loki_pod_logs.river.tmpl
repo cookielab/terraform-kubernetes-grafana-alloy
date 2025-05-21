@@ -65,6 +65,11 @@ declare "loki_pod_logs" {
     }
 
     loki.source.kubernetes "pod_logs" {
+        %{ if clustering_enabled == true }
+        clustering {
+            enabled = true
+        }
+        %{ endif }
         targets    = discovery.relabel.pod_logs.output
         forward_to = [loki.write.logs_default.receiver]
     }

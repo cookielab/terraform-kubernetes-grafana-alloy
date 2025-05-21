@@ -3,7 +3,7 @@ module "grafana_alloy" {
 
   agent_name              = "loki-logs"
   agent_resources         = var.agent_resources
-  clustering_enabled      = false
+  clustering_enabled      = var.clustering_enabled
   chart_version           = var.chart_version
   controller_resources    = var.controller_resources
   kubernetes_cluster_name = var.kubernetes_cluster_name
@@ -14,7 +14,7 @@ module "grafana_alloy" {
   stability_level         = var.stability_level
   live_debug              = var.live_debug
   aws                     = var.aws
-  replicas                = 1
+  replicas                = var.replicas
   integrations = {
     loki_logs = true
   }
