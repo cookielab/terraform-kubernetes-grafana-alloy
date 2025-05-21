@@ -196,7 +196,7 @@ variable "aws" {
 variable "loki" {
   type = object({
     url                    = optional(string, "http://loki:3100")
-    tenant_id              = optional(string, null)
+    tenant_id              = optional(string, "default")
     username               = optional(string, "admin")
     password               = optional(string, "admin")
     auth_enabled           = optional(bool, false)

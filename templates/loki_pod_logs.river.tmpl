@@ -64,6 +64,12 @@ declare "loki_pod_logs" {
         endpoint {
             url       = sys.env("LOKI_URL")
             tenant_id = sys.env("LOKI_TENANT_ID")
+            %{ if loki_auth_enabled == true }
+            basic_auth {
+                username = sys.env("LOKI_USERNAME")
+                password = sys.env("LOKI_PASSWORD")
+            }
+            %{ endif }
         }
         external_labels = {
             aws_account         = sys.env("AWS_ACCOUNT"),
