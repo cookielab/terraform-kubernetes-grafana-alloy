@@ -13,6 +13,7 @@ module "grafana_alloy" {
   metrics                 = var.metrics
   stability_level         = var.stability_level
   live_debug              = var.live_debug
+  aws                     = var.aws
   replicas                = 1
   integrations = {
     loki_logs = true

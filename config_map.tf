@@ -22,7 +22,9 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
           var.integrations.aws_sqs ? file("${path.module}/templates/aws_sqs.river.tmpl") : "",
           var.integrations.aws_mq ? file("${path.module}/templates/aws_mq.river.tmpl") : "",
           var.integrations.aws_opensearch ? file("${path.module}/templates/aws_opensearch.river.tmpl") : "",
-          var.integrations.remote_write_metrics ? file("${path.module}/templates/remote_write_metrics.river.tmpl") : "",
+          var.integrations.remote_write_metrics ? templatefile("${path.module}/templates/remote_write_metrics.river.tmpl", {
+            grafana_alloy_metrics_tenant = var.metrics.tenant
+          }) : "",
           var.integrations.kafka_jmx_metrics ? templatefile("${path.module}/templates/kafka_jmx_metrics.river.tmpl", {
             addresses             = var.kafka_jmx_metrics.kafka_broker_list
             metrics_endpoint_path = var.kafka_jmx_metrics.metrics_endpoint_path
@@ -36,6 +38,7 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
             scrape_pods_global     = var.loki.scrape_pods_global
             scrape_pods_annotation = var.loki.scrape_pods_annotation
             loki_auth_enabled      = var.loki.auth_enabled
+            loki_tenant_id         = var.loki.tenant_id
           }) : "",
         ],
       ] : []),

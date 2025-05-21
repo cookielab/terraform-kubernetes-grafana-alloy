@@ -105,7 +105,7 @@ variable "image" {
 variable "metrics" {
   type = object({
     endpoint     = optional(string, "http://mimir:9090")
-    tenant       = optional(string, "default")
+    tenant       = optional(string, null)
     backend_type = optional(string, "mimir")
     ssl_enabled  = optional(bool, true)
   })
@@ -186,10 +186,17 @@ variable "k8s_pods" {
   description = "Grafana Alloy scrape settings for K8S pods"
 }
 
+variable "aws" {
+  type = object({
+    account = optional(string, "")
+    region  = optional(string, "")
+  })
+}
+
 variable "loki" {
   type = object({
     url                    = optional(string, "http://loki:3100")
-    tenant_id              = optional(string, "default")
+    tenant_id              = optional(string, null)
     username               = optional(string, "admin")
     password               = optional(string, "admin")
     auth_enabled           = optional(bool, false)

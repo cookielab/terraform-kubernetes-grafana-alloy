@@ -93,6 +93,13 @@ variable "loki" {
   description = "Grafana Alloy scrape settings for Loki logs"
 }
 
+variable "aws" {
+  type = object({
+    account = optional(string, "")
+    region  = optional(string, "")
+  })
+}
+
 variable "global_tolerations" {
   type = list(object({
     key      = string

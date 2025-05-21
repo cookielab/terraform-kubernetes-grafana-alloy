@@ -13,6 +13,9 @@ resource "kubernetes_secret_v1" "grafana_alloy" {
       LOKI_TENANT_ID = var.loki.tenant_id
       LOKI_USERNAME  = var.loki.username
       LOKI_PASSWORD  = var.loki.password
+      AWS_ACCOUNT    = var.aws.account
+      AWS_REGION     = var.aws.region
+      CLUSTER_NAME   = var.kubernetes_cluster_name
     } : {},
     {
       GRAFANA_ALLOY_METRICS_ENDPOINT     = local.url_metrics_write
