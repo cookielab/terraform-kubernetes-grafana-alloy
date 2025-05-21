@@ -6,6 +6,15 @@ declare "loki_pod_logs" {
     discovery.relabel "pod_logs" {
         targets = discovery.kubernetes.pod.targets
 
+        %{ if scrape_pods_global  == false}
+        // Keep only annotated pods
+        rule {
+            action        = "keep"
+            source_labels = ["__meta_kubernetes_pod_annotation_${scrape_pods_annotation}"]
+            regex         = "true"
+            }
+        %{ endif }
+
         rule {
             source_labels = ["__meta_kubernetes_namespace"]
             action = "replace"
