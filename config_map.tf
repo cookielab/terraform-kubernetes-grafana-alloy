@@ -40,6 +40,7 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
             loki_auth_enabled      = var.loki.auth_enabled
             loki_tenant_id         = var.loki.tenant_id
             clustering_enabled     = var.clustering_enabled
+            scrape_logs_method     = var.loki.scrape_logs_method
           }) : "",
         ],
       ] : []),

@@ -3,11 +3,11 @@ module "grafana_alloy" {
 
   agent_name              = "loki-logs"
   agent_resources         = var.agent_resources
-  clustering_enabled      = var.clustering_enabled
+  clustering_enabled      = var.loki.scrape_logs_method == "file" ? false : var.clustering_enabled
   chart_version           = var.chart_version
   controller_resources    = var.controller_resources
   kubernetes_cluster_name = var.kubernetes_cluster_name
-  kubernetes_kind         = "deployment"
+  kubernetes_kind         = var.loki.scrape_logs_method == "file" ? "daemonset" : "deployment"
   kubernetes_namespace    = var.kubernetes_namespace
   image                   = var.image
   metrics                 = var.metrics
@@ -15,6 +15,21 @@ module "grafana_alloy" {
   live_debug              = var.live_debug
   aws                     = var.aws
   replicas                = var.replicas
+
+  kubernetes_security_context = var.loki.scrape_logs_method == "file" ? {
+    runAsUser  = 0
+    privileged = true
+  } : {
+    runAsUser  = 473
+    privileged = false
+  }
+  host_volumes = var.loki.scrape_logs_method == "file" ? [
+    {
+      name       = "varlog"
+      host_path  = "/var/log"
+      mount_path = "/var/log"
+    },
+  ] : []
   integrations = {
     loki_logs = true
   }

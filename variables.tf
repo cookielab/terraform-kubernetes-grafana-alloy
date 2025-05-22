@@ -202,9 +202,15 @@ variable "loki" {
     auth_enabled           = optional(bool, false)
     scrape_pods_global     = optional(bool, true)
     scrape_pods_annotation = optional(string, "loki.logs.enabled")
+    scrape_logs_method     = optional(string, "api")
   })
   default     = {}
   description = "Grafana Alloy scrape settings for Loki logs"
+
+validation {
+    condition     = contains(["file", "api"], var.loki.scrape_logs_method)
+    error_message = "Valid values for loki.scrape_logs_method are \"file\" or \"api\"."
+  }
 }
 
 variable "integrations" {
