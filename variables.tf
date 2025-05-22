@@ -207,7 +207,7 @@ variable "loki" {
   default     = {}
   description = "Grafana Alloy scrape settings for Loki logs"
 
-validation {
+  validation {
     condition     = contains(["file", "api"], var.loki.scrape_logs_method)
     error_message = "Valid values for loki.scrape_logs_method are \"file\" or \"api\"."
   }
