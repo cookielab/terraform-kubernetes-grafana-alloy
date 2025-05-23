@@ -88,9 +88,22 @@ variable "loki" {
     password               = optional(string, "admin")
     scrape_pods_global     = optional(bool, true)
     scrape_pods_annotation = optional(string, "loki.logs.enabled")
+    scrape_logs_method     = optional(string, "api")
   })
   default     = {}
   description = "Grafana Alloy scrape settings for Loki logs"
+
+  validation {
+    condition     = contains(["file", "api"], var.loki.scrape_logs_method)
+    error_message = "Valid values for loki.scrape_logs_method are \"file\" or \"api\"."
+  }
+}
+
+variable "aws" {
+  type = object({
+    account = optional(string, "")
+    region  = optional(string, "")
+  })
 }
 
 variable "global_tolerations" {
@@ -113,4 +126,10 @@ variable "live_debug" {
   type        = bool
   default     = false
   description = "Enable live debug for the Grafana Alloy"
+}
+
+variable "clustering_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable clustering for the Grafana Alloy"
 }

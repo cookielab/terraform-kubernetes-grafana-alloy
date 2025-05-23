@@ -1,10 +1,11 @@
 prometheus.remote_write "default" {
   endpoint {
     url = sys.env("GRAFANA_ALLOY_METRICS_ENDPOINT")
-
-    headers = {
-      "X-Scope-OrgID" = sys.env("GRAFANA_ALLOY_METRICS_TENANT"),
-    }
+    %{ if try(grafana_alloy_metrics_tenant, null) != null }
+      headers = {
+        "X-Scope-OrgID" = sys.env("GRAFANA_ALLOY_METRICS_TENANT"),
+      }
+    %{ endif }
   }
 
   external_labels = {

@@ -105,7 +105,7 @@ variable "image" {
 variable "metrics" {
   type = object({
     endpoint     = optional(string, "http://mimir:9090")
-    tenant       = optional(string, "default")
+    tenant       = optional(string, null)
     backend_type = optional(string, "mimir")
     ssl_enabled  = optional(bool, true)
   })
@@ -186,6 +186,13 @@ variable "k8s_pods" {
   description = "Grafana Alloy scrape settings for K8S pods"
 }
 
+variable "aws" {
+  type = object({
+    account = optional(string, "")
+    region  = optional(string, "")
+  })
+}
+
 variable "loki" {
   type = object({
     url                    = optional(string, "http://loki:3100")
@@ -195,9 +202,15 @@ variable "loki" {
     auth_enabled           = optional(bool, false)
     scrape_pods_global     = optional(bool, true)
     scrape_pods_annotation = optional(string, "loki.logs.enabled")
+    scrape_logs_method     = optional(string, "api")
   })
   default     = {}
   description = "Grafana Alloy scrape settings for Loki logs"
+
+  validation {
+    condition     = contains(["file", "api"], var.loki.scrape_logs_method)
+    error_message = "Valid values for loki.scrape_logs_method are \"file\" or \"api\"."
+  }
 }
 
 variable "integrations" {
