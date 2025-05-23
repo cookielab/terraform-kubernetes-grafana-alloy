@@ -191,6 +191,8 @@ variable "aws" {
     account = optional(string, "")
     region  = optional(string, "")
   })
+  default     = {}
+  description = "Grafana Alloy AWS configuration"
 }
 
 variable "loki" {
