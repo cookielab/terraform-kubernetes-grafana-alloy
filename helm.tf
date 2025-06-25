@@ -12,6 +12,11 @@ resource "helm_release" "grafana_alloy" {
       type      = var.kubernetes_kind
       resources = var.controller_resources
       replicas  = var.replicas
+      podDisruptionBudget = {
+        enabled        = var.pod_disruption_budget.enabled
+        minAvailable   = var.pod_disruption_budget.min_available
+        maxUnavailable = var.pod_disruption_budget.max_unavailable
+      }
       volumes = {
         extra = [for volume in var.host_volumes : {
           name = volume.name

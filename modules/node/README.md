@@ -50,6 +50,7 @@ No resources.
 | <a name="input_metrics"></a> [metrics](#input\_metrics) | Grafana Alloy metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API. Mimir and Promethes backends are supported. | <pre>object({<br/>    endpoint     = optional(string, "http://mimir:9090")<br/>    tenant       = optional(string, "default")<br/>    backend_type = optional(string, "mimir")<br/>    ssl_enabled  = optional(bool, true)<br/>  })</pre> | `{}` | no |
 | <a name="input_node_exporter"></a> [node\_exporter](#input\_node\_exporter) | Grafana Alloy scrape timings for K8S node\_exporter | <pre>object({<br/>    scrape_interval = optional(string, "1m")<br/>    scrape_timeout  = optional(string, "30s")<br/>  })</pre> | `{}` | no |
 | <a name="input_otel"></a> [otel](#input\_otel) | Grafana Alloy OTel configuration. NOTE: There can be only one OTel receiver at the moment. | <pre>object({<br/>    enabled   = optional(bool, false)<br/>    http_port = optional(number, 4318)<br/>    grpc_port = optional(number, 4317)<br/>    endpoint  = optional(string, "http://tempo:4318")<br/>  })</pre> | `{}` | no |
+| <a name="input_pod_disruption_budget"></a> [pod\_disruption\_budget](#input\_pod\_disruption\_budget) | Grafana Alloy pod disruption budget configuration | <pre>object({<br/>    enabled         = optional(bool)<br/>    min_available   = optional(number)<br/>    max_unavailable = optional(number)<br/>  })</pre> | <pre>{<br/>  "enabled": true,<br/>  "max_unavailable": null,<br/>  "min_available": 1<br/>}</pre> | no |
 
 ## Outputs
 

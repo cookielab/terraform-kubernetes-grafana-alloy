@@ -14,6 +14,7 @@ module "grafana_alloy" {
   replicas                = 1
   kafka_jmx_metrics       = var.kafka_jmx_metrics
   iam_role_arn            = var.iam_role_arn
+  pod_disruption_budget   = var.pod_disruption_budget
   integrations = {
     kafka_jmx_metrics = true
   }

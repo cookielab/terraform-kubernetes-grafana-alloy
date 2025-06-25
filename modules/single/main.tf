@@ -14,6 +14,7 @@ module "grafana_alloy" {
   otel                    = var.otel
   replicas                = 1
   global_tolerations      = var.global_tolerations
+  pod_disruption_budget   = var.pod_disruption_budget
   integrations = {
     k8s_mimir_rules = true
   }

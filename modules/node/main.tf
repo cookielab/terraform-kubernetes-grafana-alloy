@@ -12,6 +12,7 @@ module "grafana_alloy" {
   image                   = var.image
   metrics                 = var.metrics
   otel                    = var.otel
+  pod_disruption_budget   = var.pod_disruption_budget
 
   global_tolerations = var.global_tolerations
   integrations = {
