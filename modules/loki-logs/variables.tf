@@ -133,3 +133,17 @@ variable "clustering_enabled" {
   default     = false
   description = "Enable clustering for the Grafana Alloy"
 }
+
+variable "pod_disruption_budget" {
+  type = object({
+    enabled         = optional(bool)
+    min_available   = optional(number)
+    max_unavailable = optional(number)
+  })
+  default = {
+    enabled         = true
+    min_available   = 1
+    max_unavailable = null
+  }
+  description = "Grafana Alloy pod disruption budget configuration"
+}

@@ -15,6 +15,7 @@ module "grafana_alloy" {
   iam_role_arn            = var.iam_role_arn
   stability_level         = var.stability_level
   global_tolerations      = var.global_tolerations
+  pod_disruption_budget   = var.pod_disruption_budget
   integrations = {
     otel_collector = true
   }
