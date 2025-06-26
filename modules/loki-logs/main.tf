@@ -15,7 +15,11 @@ module "grafana_alloy" {
   live_debug              = var.live_debug
   aws                     = var.aws
   replicas                = var.replicas
-  pod_disruption_budget   = var.pod_disruption_budget
+  pod_disruption_budget = var.loki.scrape_logs_method == "file" ? {
+    enabled         = false
+    min_available   = null
+    max_unavailable = null
+  } : var.pod_disruption_budget
 
   kubernetes_security_context = var.loki.scrape_logs_method == "file" ? {
     runAsUser  = 0

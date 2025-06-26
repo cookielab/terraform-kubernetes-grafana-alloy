@@ -112,8 +112,8 @@ variable "pod_disruption_budget" {
     max_unavailable = optional(number)
   })
   default = {
-    enabled         = true
-    min_available   = 1
+    enabled         = false
+    min_available   = null
     max_unavailable = null
   }
   description = "Grafana Alloy pod disruption budget configuration"
