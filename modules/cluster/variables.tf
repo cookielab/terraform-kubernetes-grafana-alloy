@@ -121,9 +121,11 @@ variable "k8s_kubelet" {
 
 variable "global_tolerations" {
   type = list(object({
-    key      = string
-    operator = string
-    effect   = string
+    key               = string
+    operator          = string
+    value             = optional(string)
+    effect            = string
+    tolerationSeconds = optional(number)
   }))
   default     = []
   description = "Global tolerations for the Grafana Alloy"
