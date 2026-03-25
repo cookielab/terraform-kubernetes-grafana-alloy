@@ -120,6 +120,8 @@ variable "otel" {
     service_graphs_dimensions = optional(list(string), [])
     http_port                 = optional(number, 4318)
     grpc_port                 = optional(number, 4317)
+    datadog_receiver_enabled  = optional(bool, false)
+    datadog_port              = optional(number, 8126)
   })
   default     = {}
   description = "Grafana Alloy OTel settings"

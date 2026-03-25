@@ -24,6 +24,17 @@ declare "otel_collector" {
     }
   }
 
+%{ if otel_datadog_receiver_enabled }
+  otelcol.receiver.datadog "default" {
+    endpoint = "0.0.0.0:${otel_datadog_port}"
+
+    output {
+      traces  = [otelcol.processor.attributes.default.input]
+      metrics = [otelcol.processor.attributes.default.input]
+    }
+  }
+%{ endif }
+
   otelcol.processor.attributes "default" {
     action {
       action = "upsert"

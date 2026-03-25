@@ -125,9 +125,11 @@ variable "otel" {
     endpoint                  = optional(string, "http://tempo:4318")
     tenant_id                 = optional(string, null)
     service_graphs_dimensions = optional(list(string), [])
+    datadog_receiver_enabled  = optional(bool, false)
+    datadog_port              = optional(number, 8126)
   })
   default     = {}
-  description = "Grafana Alloy OTel configuration. NOTE: There can be only one OTel receiver at the moment."
+  description = "Grafana Alloy OTel configuration. Set datadog_receiver_enabled = true to additionally receive Datadog-format traces and metrics on datadog_port."
 }
 
 variable "host_volumes" {

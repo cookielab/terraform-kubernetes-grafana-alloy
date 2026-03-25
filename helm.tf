@@ -27,20 +27,30 @@ resource "helm_release" "grafana_alloy" {
       }
       tolerations = var.global_tolerations
     }
-    alloy = merge(var.integrations.otel_collector ? { extraPorts = [
-      {
-        name       = "http-otel"
-        targetPort = var.otel.http_port
-        port       = var.otel.http_port
-        protocol   = "TCP"
-      },
-      {
-        name       = "grpc-otel"
-        targetPort = var.otel.grpc_port
-        port       = var.otel.grpc_port
-        protocol   = "TCP"
-      }]
-      } : {}, {
+    alloy = merge(var.integrations.otel_collector ? { extraPorts = concat(
+      [
+        {
+          name       = "http-otel"
+          targetPort = var.otel.http_port
+          port       = var.otel.http_port
+          protocol   = "TCP"
+        },
+        {
+          name       = "grpc-otel"
+          targetPort = var.otel.grpc_port
+          port       = var.otel.grpc_port
+          protocol   = "TCP"
+        }
+      ],
+      var.otel.datadog_receiver_enabled ? [
+        {
+          name       = "datadog"
+          targetPort = var.otel.datadog_port
+          port       = var.otel.datadog_port
+          protocol   = "TCP"
+        }
+      ] : []
+    )} : {}, {
       mode = "flow"
       liveDebug = {
         enabled = var.live_debug
