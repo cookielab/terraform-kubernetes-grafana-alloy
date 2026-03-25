@@ -124,6 +124,23 @@ variable "otel" {
   description = "Grafana Alloy OTel settings"
 }
 
+variable "kubernetes_kind" {
+  type        = string
+  default     = "deployment"
+  description = "Grafana Alloy Kubernetes resource kind. Valid values are \"deployment\" or \"daemonset\"."
+
+  validation {
+    condition     = contains(["deployment", "daemonset"], var.kubernetes_kind)
+    error_message = "Valid values for kubernetes_kind are \"deployment\" or \"daemonset\"."
+  }
+}
+
+variable "clustering_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable Grafana Alloy clustering. NOTE: Only supported for deployment kind."
+}
+
 variable "pod_disruption_budget" {
   type = object({
     enabled         = optional(bool)
