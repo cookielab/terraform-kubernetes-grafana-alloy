@@ -5,9 +5,10 @@ resource "kubernetes_secret_v1" "grafana_alloy" {
   }
 
   data = merge(var.envs,
-    var.integrations.otel_collector ? {
-      GRAFANA_ALLOY_OTEL_ENDPOINT = var.otel.endpoint
-    } : {},
+    var.integrations.otel_collector ? merge(
+      { GRAFANA_ALLOY_OTEL_ENDPOINT = var.otel.endpoint },
+      var.otel.tenant_id != null ? { GRAFANA_ALLOY_OTEL_TENANT = var.otel.tenant_id } : {}
+    ) : {},
     var.integrations.loki_logs ? {
       LOKI_URL       = var.loki.url
       LOKI_TENANT_ID = var.loki.tenant_id

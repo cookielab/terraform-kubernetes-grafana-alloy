@@ -120,6 +120,11 @@ declare "otel_collector" {
   otelcol.exporter.otlphttp "tempo" {
     client {
       endpoint = argument.traces_output.value
+      %{ if try(otel_tenant_id, null) != null }
+      headers = {
+        "X-Scope-OrgID" = sys.env("GRAFANA_ALLOY_OTEL_TENANT"),
+      }
+      %{ endif }
     }
   }
 

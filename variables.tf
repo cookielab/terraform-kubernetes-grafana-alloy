@@ -123,6 +123,7 @@ variable "otel" {
     http_port                 = optional(number, 4318)
     grpc_port                 = optional(number, 4317)
     endpoint                  = optional(string, "http://tempo:4318")
+    tenant_id                 = optional(string, null)
     service_graphs_dimensions = optional(list(string), [])
   })
   default     = {}

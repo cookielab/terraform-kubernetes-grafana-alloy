@@ -21,6 +21,7 @@ module "grafana_alloy" {
   }
   otel = {
     endpoint                  = var.otel.endpoint
+    tenant_id                 = var.otel.tenant_id
     http_port                 = var.otel.http_port
     grpc_port                 = var.otel.grpc_port
     service_graphs_dimensions = var.otel.service_graphs_dimensions

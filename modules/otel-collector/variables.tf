@@ -116,6 +116,7 @@ variable "stability_level" {
 variable "otel" {
   type = object({
     endpoint                  = optional(string, "http://tempo:9090")
+    tenant_id                 = optional(string, null)
     service_graphs_dimensions = optional(list(string), [])
     http_port                 = optional(number, 4318)
     grpc_port                 = optional(number, 4317)
