@@ -251,6 +251,16 @@ variable "live_debug" {
   description = "Enable live debug for the Grafana Alloy"
 }
 
+variable "autoscaling" {
+  type = object({
+    min_replicas                      = optional(number, 2)
+    max_replicas                      = optional(number, 5)
+    target_cpu_utilization_percentage = optional(number, 80)
+  })
+  default     = {}
+  description = "Autoscaling (HPA) configuration for Grafana Alloy. Automatically enabled when clustering_enabled = true."
+}
+
 variable "pod_disruption_budget" {
   type = object({
     enabled         = optional(bool)

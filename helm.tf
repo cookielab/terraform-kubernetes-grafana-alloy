@@ -8,10 +8,11 @@ resource "helm_release" "grafana_alloy" {
 
   values = [yamlencode({
     image = var.image
-    controller = {
-      type      = var.kubernetes_kind
-      resources = var.controller_resources
-      replicas  = var.replicas
+    controller = merge({
+      type        = var.kubernetes_kind
+      resources   = var.controller_resources
+      replicas    = var.replicas
+      hostNetwork = var.kubernetes_kind == "daemonset" ? true : false
       podDisruptionBudget = {
         enabled        = var.pod_disruption_budget.enabled
         minAvailable   = var.pod_disruption_budget.min_available
@@ -26,7 +27,14 @@ resource "helm_release" "grafana_alloy" {
         }]
       }
       tolerations = var.global_tolerations
-    }
+    }, var.clustering_enabled ? {
+      autoscaling = {
+        enabled                        = true
+        minReplicas                    = var.autoscaling.min_replicas
+        maxReplicas                    = var.autoscaling.max_replicas
+        targetCPUUtilizationPercentage = var.autoscaling.target_cpu_utilization_percentage
+      }
+    } : {})
     alloy = merge(var.integrations.otel_collector ? { extraPorts = concat(
       [
         {

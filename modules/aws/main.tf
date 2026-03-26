@@ -3,18 +3,19 @@ module "grafana_alloy" {
 
   agent_name              = "aws"
   agent_resources         = var.agent_resources
-  clustering_enabled      = false
+  clustering_enabled      = var.clustering_enabled
   chart_version           = var.chart_version
   controller_resources    = var.controller_resources
   kubernetes_cluster_name = var.kubernetes_cluster_name
-  kubernetes_kind         = "deployment"
+  kubernetes_kind         = var.kubernetes_kind
   kubernetes_namespace    = var.kubernetes_namespace
   image                   = var.image
   metrics                 = var.metrics
-  replicas                = 1
+  replicas                = var.replicas
   iam_role_arn            = var.iam_role_arn
   global_tolerations      = var.global_tolerations
   pod_disruption_budget   = var.pod_disruption_budget
+  autoscaling             = var.autoscaling
   integrations = {
     aws_opensearch = true
     aws_alb        = true

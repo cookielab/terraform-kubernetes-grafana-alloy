@@ -165,3 +165,36 @@ variable "pod_disruption_budget" {
   }
   description = "Grafana Alloy pod disruption budget configuration"
 }
+
+variable "kubernetes_kind" {
+  type        = string
+  default     = "deployment"
+  description = "Grafana Alloy Kubernetes resource kind. Valid values are \"deployment\" or \"daemonset\"."
+
+  validation {
+    condition     = contains(["deployment", "daemonset"], var.kubernetes_kind)
+    error_message = "Valid values for kubernetes_kind are \"deployment\" or \"daemonset\"."
+  }
+}
+
+variable "clustering_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable Grafana Alloy clustering."
+}
+
+variable "replicas" {
+  type        = number
+  default     = 1
+  description = "Number of Grafana Alloy replicas."
+}
+
+variable "autoscaling" {
+  type = object({
+    min_replicas                      = optional(number, 2)
+    max_replicas                      = optional(number, 5)
+    target_cpu_utilization_percentage = optional(number, 80)
+  })
+  default     = {}
+  description = "Autoscaling (HPA) configuration. Active when clustering_enabled = true."
+}

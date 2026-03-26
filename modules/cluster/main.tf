@@ -14,6 +14,7 @@ module "grafana_alloy" {
   replicas                = var.replicas
   k8s_pods                = var.k8s_pods
   pod_disruption_budget   = var.pod_disruption_budget
+  autoscaling             = var.autoscaling
   integrations = {
     k8s_cadvisor = true
     k8s_kubelet  = true

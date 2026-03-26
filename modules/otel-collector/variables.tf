@@ -144,6 +144,12 @@ variable "clustering_enabled" {
   description = "Enable Grafana Alloy clustering. NOTE: Only supported for deployment kind."
 }
 
+variable "replicas" {
+  type        = number
+  default     = 1
+  description = "Number of Grafana Alloy replicas."
+}
+
 variable "pod_disruption_budget" {
   type = object({
     enabled         = optional(bool)
@@ -156,4 +162,14 @@ variable "pod_disruption_budget" {
     max_unavailable = null
   }
   description = "Grafana Alloy pod disruption budget configuration"
+}
+
+variable "autoscaling" {
+  type = object({
+    min_replicas                      = optional(number, 2)
+    max_replicas                      = optional(number, 5)
+    target_cpu_utilization_percentage = optional(number, 80)
+  })
+  default     = {}
+  description = "Autoscaling (HPA) configuration. Active when clustering_enabled = true."
 }

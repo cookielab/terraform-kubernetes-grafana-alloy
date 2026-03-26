@@ -149,3 +149,13 @@ variable "pod_disruption_budget" {
   }
   description = "Grafana Alloy pod disruption budget configuration"
 }
+
+variable "autoscaling" {
+  type = object({
+    min_replicas                      = optional(number, 2)
+    max_replicas                      = optional(number, 5)
+    target_cpu_utilization_percentage = optional(number, 80)
+  })
+  default     = {}
+  description = "Autoscaling (HPA) configuration. Active when clustering_enabled = true and scrape_logs_method != \"file\"."
+}
