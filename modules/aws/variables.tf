@@ -189,6 +189,12 @@ variable "replicas" {
   description = "Number of Grafana Alloy replicas."
 }
 
+variable "host_network" {
+  type        = bool
+  default     = null
+  description = "Enable hostNetwork for the Grafana Alloy controller. When null, defaults to true for daemonset and false for deployment."
+}
+
 variable "autoscaling" {
   type = object({
     min_replicas                      = optional(number, 2)

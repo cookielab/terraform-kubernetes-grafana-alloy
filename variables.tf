@@ -261,6 +261,12 @@ variable "autoscaling" {
   description = "Autoscaling (HPA) configuration for Grafana Alloy. Automatically enabled when clustering_enabled = true."
 }
 
+variable "host_network" {
+  type        = bool
+  default     = null
+  description = "Enable hostNetwork for the Grafana Alloy controller. When null, defaults to true for daemonset and false for deployment."
+}
+
 variable "pod_disruption_budget" {
   type = object({
     enabled         = optional(bool)

@@ -12,7 +12,7 @@ resource "helm_release" "grafana_alloy" {
       type        = var.kubernetes_kind
       resources   = var.controller_resources
       replicas    = var.replicas
-      hostNetwork = var.kubernetes_kind == "daemonset" ? true : false
+      hostNetwork = var.host_network != null ? var.host_network : (var.kubernetes_kind == "daemonset")
       podDisruptionBudget = {
         enabled        = var.pod_disruption_budget.enabled
         minAvailable   = var.pod_disruption_budget.min_available
@@ -27,7 +27,7 @@ resource "helm_release" "grafana_alloy" {
         }]
       }
       tolerations = var.global_tolerations
-    }, var.clustering_enabled ? {
+      }, var.clustering_enabled ? {
       autoscaling = {
         enabled                        = true
         minReplicas                    = var.autoscaling.min_replicas
@@ -58,7 +58,7 @@ resource "helm_release" "grafana_alloy" {
           protocol   = "TCP"
         }
       ] : []
-    )} : {}, {
+      ) } : {}, {
       mode = "flow"
       liveDebug = {
         enabled = var.live_debug

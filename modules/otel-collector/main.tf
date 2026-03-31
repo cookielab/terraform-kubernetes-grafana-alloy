@@ -14,6 +14,7 @@ module "grafana_alloy" {
   replicas                = var.replicas
   iam_role_arn            = var.iam_role_arn
   stability_level         = var.stability_level
+  host_network            = var.host_network
   global_tolerations      = var.global_tolerations
   pod_disruption_budget   = var.pod_disruption_budget
   autoscaling             = var.autoscaling

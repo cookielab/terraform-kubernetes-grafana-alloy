@@ -13,6 +13,7 @@ module "grafana_alloy" {
   metrics                 = var.metrics
   replicas                = var.replicas
   iam_role_arn            = var.iam_role_arn
+  host_network            = var.host_network
   global_tolerations      = var.global_tolerations
   pod_disruption_budget   = var.pod_disruption_budget
   autoscaling             = var.autoscaling
