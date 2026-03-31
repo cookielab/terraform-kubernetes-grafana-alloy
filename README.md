@@ -84,33 +84,49 @@ module "grafana_alloy_k8s" {
 }
 ```
 
-### OTel example
+### OTel Collector Module
 
-```
-module "grafana_alloy_otel" {
-  source  = "./modules/otel-collector"
+```hcl
+module "grafana_alloy_otel_collector_prod" {
+  providers = {
+    kubernetes = kubernetes.prod
+    helm       = helm.prod
+  }
+  source  = "cookielab/grafana-alloy/kubernetes//modules/otel-collector"
+  version = "1.0.5"
 
-  kubernetes_cluster_name = "somecluster"
+  kubernetes_cluster_name = "my-cluster"
   kubernetes_namespace    = "cluster-apps"
-
-  agent_name = "otel"
-
-  config = [<<-EOF
-    otel_process "my" {
-      metrics_output = prometheus.remote_write.default.receiver
-      traces_output  = otelcol.exporter.otelhttp.default.receiver
-    }
-    EOF
-  ]
+  kubernetes_kind         = "daemonset"
 
   metrics = {
-    endpoint = "https://mimir.example.com:443/api/v1/push"
+    endpoint = "https://mimir.example.com/api/v1/push"
+    tenant   = "my-tenant"
   }
 
   otel = {
-    enabled  = true
-    endpoint = "https://tempo.example.com:443"
+    endpoint                 = "https://tempo.example.com"
+    tenant_id                = "my-tenant"
+    datadog_receiver_enabled = true
+    datadog_port             = 8126
   }
+
+  agent_resources = {
+    requests = {
+      cpu    = "50m"
+      memory = "128Mi"
+    }
+    limits = {
+      cpu    = "100m"
+      memory = "128Mi"
+    }
+  }
+
+  pod_disruption_budget = {
+    enabled = false
+  }
+
+  stability_level = "experimental"
 }
 ```
 NOTE: OTel components are not cluster-capable and some require single point of processing (ie. traces)
