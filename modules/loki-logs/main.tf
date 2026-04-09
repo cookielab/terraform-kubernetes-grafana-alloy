@@ -41,6 +41,7 @@ module "grafana_alloy" {
   autoscaling        = var.loki.scrape_logs_method == "file" ? {} : var.autoscaling
   loki               = var.loki
   host_network       = var.host_network
+  ingress            = var.ingress
   global_tolerations = var.global_tolerations
   config = concat(var.config, [<<-EOF
     loki_pod_logs "default" {

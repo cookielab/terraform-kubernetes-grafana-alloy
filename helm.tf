@@ -35,30 +35,9 @@ resource "helm_release" "grafana_alloy" {
         targetCPUUtilizationPercentage = var.autoscaling.target_cpu_utilization_percentage
       }
     } : {})
-    alloy = merge(var.integrations.otel_collector ? { extraPorts = concat(
-      [
-        {
-          name       = "http-otel"
-          targetPort = var.otel.http_port
-          port       = var.otel.http_port
-          protocol   = "TCP"
-        },
-        {
-          name       = "grpc-otel"
-          targetPort = var.otel.grpc_port
-          port       = var.otel.grpc_port
-          protocol   = "TCP"
-        }
-      ],
-      var.otel.datadog_receiver_enabled ? [
-        {
-          name       = "datadog"
-          targetPort = var.otel.datadog_port
-          port       = var.otel.datadog_port
-          protocol   = "TCP"
-        }
-      ] : []
-      ) } : {}, {
+    alloy = merge(length(local.alloy_extra_ports) > 0 ? {
+      extraPorts = local.alloy_extra_ports
+      } : {}, {
       mode = "flow"
       liveDebug = {
         enabled = var.live_debug
@@ -86,6 +65,22 @@ resource "helm_release" "grafana_alloy" {
         }]
       }
     })
+    ingress = merge({
+      enabled     = var.ingress.enabled
+      annotations = var.ingress.annotations
+      labels      = var.ingress.labels
+      path        = var.ingress.path
+      faroPort    = var.ingress.port
+      pathType    = var.ingress.path_type
+      hosts       = var.ingress.hosts
+      extraPaths  = var.ingress.extra_paths
+      tls = [for tls in var.ingress.tls : {
+        secretName = tls.secret_name
+        hosts      = tls.hosts
+      }]
+      }, var.ingress.ingress_class_name != null ? {
+      ingressClassName = var.ingress.ingress_class_name
+    } : {})
     }),
     var.iam_role_arn != "" ? yamlencode({
       serviceAccount = {

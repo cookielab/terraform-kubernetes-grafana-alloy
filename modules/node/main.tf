@@ -13,6 +13,7 @@ module "grafana_alloy" {
   metrics                 = var.metrics
   otel                    = var.otel
   host_network            = var.host_network
+  ingress                 = var.ingress
   pod_disruption_budget   = var.pod_disruption_budget
 
   global_tolerations = var.global_tolerations

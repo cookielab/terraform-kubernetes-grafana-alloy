@@ -15,6 +15,7 @@ module "grafana_alloy" {
   iam_role_arn            = var.iam_role_arn
   global_tolerations      = var.global_tolerations
   host_network            = var.host_network
+  ingress                 = var.ingress
   pod_disruption_budget   = var.pod_disruption_budget
   autoscaling             = var.autoscaling
   otel = {

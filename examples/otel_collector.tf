@@ -14,6 +14,13 @@ module "grafana_alloy_otel_collector" {
   kubernetes_cluster_name = data.aws_eks_cluster.main.name
   kubernetes_namespace    = "default"
 
+  ingress = {
+    enabled            = true
+    ingress_class_name = "nginx"
+    hosts              = ["alloy-otel.example.com"]
+    port               = 4318
+  }
+
   agent_resources = {
     limits = {
       cpu    = "1"

@@ -14,6 +14,7 @@ module "grafana_alloy" {
   otel                    = var.otel
   replicas                = var.replicas
   host_network            = var.host_network
+  ingress                 = var.ingress
   global_tolerations      = var.global_tolerations
   pod_disruption_budget   = var.pod_disruption_budget
   autoscaling             = var.autoscaling

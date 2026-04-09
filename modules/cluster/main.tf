@@ -22,6 +22,7 @@ module "grafana_alloy" {
     k8s_services = true
   }
   host_network       = var.host_network
+  ingress            = var.ingress
   global_tolerations = var.global_tolerations
   config = concat(var.config, [<<-EOF
     k8s_pods "default" {

@@ -20,6 +20,7 @@ module "grafana_alloy" {
     kafka_jmx_metrics = true
   }
   host_network       = var.host_network
+  ingress            = var.ingress
   global_tolerations = var.global_tolerations
   otel = {
     enabled = false
