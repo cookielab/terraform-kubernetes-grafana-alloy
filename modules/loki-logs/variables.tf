@@ -76,6 +76,9 @@ variable "metrics" {
     endpoint     = optional(string, "http://mimir:9090")
     tenant       = optional(string, "default")
     backend_type = optional(string, "mimir")
+    bearer_token = optional(string, null)
+    username     = optional(string, null)
+    password     = optional(string, null)
   })
   default     = {}
   description = "Grafana Alloy metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API."

@@ -108,9 +108,12 @@ variable "metrics" {
     tenant       = optional(string, null)
     backend_type = optional(string, "mimir")
     ssl_enabled  = optional(bool, true)
+    bearer_token = optional(string, null)
+    username     = optional(string, null)
+    password     = optional(string, null)
   })
   default     = {}
-  description = "Grafana Alloy metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API."
+  description = "Grafana Alloy metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API. Use bearer_token for Bearer auth or username+password for Basic auth."
 
   validation {
     condition     = contains(["mimir", "prometheus"], var.metrics.backend_type)

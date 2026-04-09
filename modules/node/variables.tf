@@ -71,6 +71,9 @@ variable "metrics" {
     tenant       = optional(string, "default")
     backend_type = optional(string, "mimir")
     ssl_enabled  = optional(bool, true)
+    bearer_token = optional(string, null)
+    username     = optional(string, null)
+    password     = optional(string, null)
   })
   default     = {}
   description = "Grafana Alloy metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API. Mimir and Promethes backends are supported."

@@ -23,7 +23,10 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
           var.integrations.aws_mq ? file("${path.module}/templates/aws_mq.river.tmpl") : "",
           var.integrations.aws_opensearch ? file("${path.module}/templates/aws_opensearch.river.tmpl") : "",
           var.integrations.remote_write_metrics ? templatefile("${path.module}/templates/remote_write_metrics.river.tmpl", {
-            grafana_alloy_metrics_tenant = var.metrics.tenant
+            grafana_alloy_metrics_tenant        = var.metrics.tenant
+            grafana_alloy_metrics_bearer_token  = var.metrics.bearer_token
+            grafana_alloy_metrics_username      = var.metrics.username
+            grafana_alloy_metrics_password      = var.metrics.password
           }) : "",
           var.integrations.kafka_jmx_metrics ? templatefile("${path.module}/templates/kafka_jmx_metrics.river.tmpl", {
             addresses             = var.kafka_jmx_metrics.kafka_broker_list

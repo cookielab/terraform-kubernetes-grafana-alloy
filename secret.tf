@@ -19,12 +19,17 @@ resource "kubernetes_secret_v1" "grafana_alloy" {
       AWS_REGION     = var.aws.region
       CLUSTER_NAME   = var.kubernetes_cluster_name
     } : {},
-    {
-      GRAFANA_ALLOY_METRICS_ENDPOINT     = local.url_metrics_write
-      GRAFANA_ALLOY_MIMIR_RULES_ENDPOINT = local.url_mimir_rules
-      GRAFANA_ALLOY_METRICS_TENANT       = var.metrics.tenant
-      GRAFANA_ALLOY_K8S_CLUSTER          = var.kubernetes_cluster_name
-    }
+    merge(
+      {
+        GRAFANA_ALLOY_METRICS_ENDPOINT     = local.url_metrics_write
+        GRAFANA_ALLOY_MIMIR_RULES_ENDPOINT = local.url_mimir_rules
+        GRAFANA_ALLOY_METRICS_TENANT       = var.metrics.tenant
+        GRAFANA_ALLOY_K8S_CLUSTER          = var.kubernetes_cluster_name
+      },
+      var.metrics.bearer_token != null ? { GRAFANA_ALLOY_METRICS_BEARER_TOKEN = var.metrics.bearer_token } : {},
+      var.metrics.username != null ? { GRAFANA_ALLOY_METRICS_USERNAME = var.metrics.username } : {},
+      var.metrics.password != null ? { GRAFANA_ALLOY_METRICS_PASSWORD = var.metrics.password } : {}
+    )
   )
 }
 
