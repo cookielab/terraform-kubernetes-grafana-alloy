@@ -1,7 +1,7 @@
 module "grafana_alloy" {
   source = "../../"
 
-  agent_name              = "single${var.tenant_distinguisher}"
+  agent_name              = coalesce(var.agent_name, "single${var.tenant_distinguisher}")
   agent_resources         = var.agent_resources
   clustering_enabled      = var.clustering_enabled
   chart_version           = var.chart_version

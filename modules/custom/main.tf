@@ -1,7 +1,7 @@
 module "grafana_alloy" {
   source = "../../"
 
-  agent_name              = "custom-scrape"
+  agent_name              = var.agent_name
   agent_resources         = var.agent_resources
   clustering_enabled      = var.clustering_enabled
   chart_version           = var.chart_version

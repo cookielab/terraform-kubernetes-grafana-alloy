@@ -3,6 +3,12 @@ variable "kubernetes_namespace" {
   description = "Kubernetes namespace"
 }
 
+variable "agent_name" {
+  type        = string
+  default     = null
+  description = "Name suffix of the Grafana Alloy release. The final Helm release name will be grafana-alloy-{agent_name}. Defaults to \"single{tenant_distinguisher}\"."
+}
+
 variable "kubernetes_cluster_name" {
   type        = string
   description = "Kubernetes cluster name"

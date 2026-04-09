@@ -3,6 +3,12 @@ variable "kubernetes_namespace" {
   description = "Kubernetes namespace"
 }
 
+variable "agent_name" {
+  type        = string
+  default     = "loki-logs"
+  description = "Name suffix of the Grafana Alloy release. The final Helm release name will be grafana-alloy-{agent_name}."
+}
+
 variable "kubernetes_cluster_name" {
   type        = string
   description = "Kubernetes cluster name"

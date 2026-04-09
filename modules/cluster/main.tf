@@ -1,7 +1,7 @@
 module "grafana_alloy" {
   source = "../../"
 
-  agent_name              = "clustered"
+  agent_name              = var.agent_name
   agent_resources         = var.agent_resources
   clustering_enabled      = true
   chart_version           = var.chart_version

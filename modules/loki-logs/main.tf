@@ -1,7 +1,7 @@
 module "grafana_alloy" {
   source = "../../"
 
-  agent_name              = "loki-logs"
+  agent_name              = var.agent_name
   agent_resources         = var.agent_resources
   clustering_enabled      = var.loki.scrape_logs_method == "file" ? false : var.clustering_enabled
   chart_version           = var.chart_version
