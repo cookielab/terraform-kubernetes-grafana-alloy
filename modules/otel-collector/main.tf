@@ -30,6 +30,7 @@ module "grafana_alloy" {
     service_graphs_dimensions = var.otel.service_graphs_dimensions
     datadog_receiver_enabled  = var.otel.datadog_receiver_enabled
     datadog_port              = var.otel.datadog_port
+    bearer_token              = var.otel.bearer_token
   }
   config = concat(var.config, [<<-EOF
     otel_collector "default" {

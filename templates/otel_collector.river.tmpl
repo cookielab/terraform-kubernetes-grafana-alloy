@@ -10,12 +10,24 @@ declare "otel_collector" {
     comment  = "Where to send Prometheus metrics"
   }
 
+%{ if otel_bearer_token_enabled }
+  otelcol.auth.bearer "otlp" {
+    token = sys.env("GRAFANA_ALLOY_OTLP_BEARER_TOKEN")
+  }
+%{ endif }
+
   otelcol.receiver.otlp "default" {
     http {
       endpoint = "0.0.0.0:${otel_http_port}"
+%{ if otel_bearer_token_enabled }
+      auth     = otelcol.auth.bearer.otlp.handler
+%{ endif }
     }
     grpc {
       endpoint = "0.0.0.0:${otel_grpc_port}"
+%{ if otel_bearer_token_enabled }
+      auth     = otelcol.auth.bearer.otlp.handler
+%{ endif }
     }
 
     output {

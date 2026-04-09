@@ -127,9 +127,10 @@ variable "otel" {
     service_graphs_dimensions = optional(list(string), [])
     datadog_receiver_enabled  = optional(bool, false)
     datadog_port              = optional(number, 8126)
+    bearer_token              = optional(string, null)
   })
   default     = {}
-  description = "Grafana Alloy OTel configuration. Set datadog_receiver_enabled = true to additionally receive Datadog-format traces and metrics on datadog_port."
+  description = "Grafana Alloy OTel configuration. Set datadog_receiver_enabled = true to additionally receive Datadog-format traces and metrics on datadog_port. Set bearer_token to require Bearer Token authentication on the OTLP receiver."
 }
 
 variable "host_volumes" {

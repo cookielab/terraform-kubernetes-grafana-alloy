@@ -93,7 +93,7 @@ module "grafana_alloy_otel_collector_prod" {
     helm       = helm.prod
   }
   source  = "cookielab/grafana-alloy/kubernetes//modules/otel-collector"
-  version = "1.0.5"
+  version = "1.0.6"
 
   kubernetes_cluster_name = "my-cluster"
   kubernetes_namespace    = "cluster-apps"
@@ -130,6 +130,52 @@ module "grafana_alloy_otel_collector_prod" {
 }
 ```
 NOTE: OTel components are not cluster-capable and some require single point of processing (ie. traces)
+
+### OTel Collector — single instance with ingress and Bearer Token auth
+
+```hcl
+variable "otlp_bearer_token" {
+  type      = string
+  sensitive = true
+}
+
+module "grafana_alloy_otel_collector" {
+  source  = "cookielab/grafana-alloy/kubernetes//modules/otel-collector"
+  version = "1.0.6"
+
+  kubernetes_cluster_name = "my-cluster"
+  kubernetes_namespace    = "monitoring"
+
+  # Custom Helm release name — results in "grafana-alloy-otel-anthropic"
+  agent_name = "otel-anthropic"
+
+  replicas           = 1
+  clustering_enabled = false
+
+  otel = {
+    endpoint     = "https://tempo.example.com:443"
+    bearer_token = var.otlp_bearer_token
+  }
+
+  metrics = {
+    endpoint = "https://mimir.example.com/api/v1/push"
+    tenant   = "my-tenant"
+  }
+
+  ingress = {
+    enabled            = true
+    ingress_class_name = "traefik-prod"
+    hosts              = ["otel.example.com"]
+    port               = 4318
+    tls = [
+      {
+        secret_name = "otel-tls"
+        hosts       = ["otel.example.com"]
+      }
+    ]
+  }
+}
+```
 
 ### Loki Logs Module for k8s pod logs
 
@@ -237,7 +283,7 @@ No modules.
 | <a name="input_live_debug"></a> [live\_debug](#input\_live\_debug) | Enable live debug for the Grafana Alloy | `bool` | `false` | no |
 | <a name="input_loki"></a> [loki](#input\_loki) | Grafana Alloy scrape settings for Loki logs | <pre>object({<br/>    url                    = optional(string, "http://loki:3100")<br/>    tenant_id              = optional(string, "default")<br/>    username               = optional(string, "admin")<br/>    password               = optional(string, "admin")<br/>    auth_enabled           = optional(bool, false)<br/>    scrape_pods_global     = optional(bool, true)<br/>    scrape_pods_annotation = optional(string, "loki.logs.enabled")<br/>    scrape_logs_method     = optional(string, "api")<br/>  })</pre> | `{}` | no |
 | <a name="input_metrics"></a> [metrics](#input\_metrics) | Grafana Alloy metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API. | <pre>object({<br/>    endpoint     = optional(string, "http://mimir:9090")<br/>    tenant       = optional(string, null)<br/>    backend_type = optional(string, "mimir")<br/>    ssl_enabled  = optional(bool, true)<br/>  })</pre> | `{}` | no |
-| <a name="input_otel"></a> [otel](#input\_otel) | Grafana Alloy OTel configuration. Set datadog\_receiver\_enabled = true to additionally receive Datadog-format traces and metrics on datadog\_port. | <pre>object({<br/>    http_port                 = optional(number, 4318)<br/>    grpc_port                 = optional(number, 4317)<br/>    endpoint                  = optional(string, "http://tempo:4318")<br/>    tenant_id                 = optional(string, null)<br/>    service_graphs_dimensions = optional(list(string), [])<br/>    datadog_receiver_enabled  = optional(bool, false)<br/>    datadog_port              = optional(number, 8126)<br/>  })</pre> | `{}` | no |
+| <a name="input_otel"></a> [otel](#input\_otel) | Grafana Alloy OTel configuration. Set datadog\_receiver\_enabled = true to additionally receive Datadog-format traces and metrics on datadog\_port. Set bearer\_token to require Bearer Token authentication on the OTLP receiver. | <pre>object({<br/>    http_port                 = optional(number, 4318)<br/>    grpc_port                 = optional(number, 4317)<br/>    endpoint                  = optional(string, "http://tempo:4318")<br/>    tenant_id                 = optional(string, null)<br/>    service_graphs_dimensions = optional(list(string), [])<br/>    datadog_receiver_enabled  = optional(bool, false)<br/>    datadog_port              = optional(number, 8126)<br/>    bearer_token              = optional(string, null)<br/>  })</pre> | `{}` | no |
 | <a name="input_pod_disruption_budget"></a> [pod\_disruption\_budget](#input\_pod\_disruption\_budget) | Grafana Alloy pod disruption budget configuration | <pre>object({<br/>    enabled         = optional(bool)<br/>    min_available   = optional(number)<br/>    max_unavailable = optional(number)<br/>  })</pre> | <pre>{<br/>  "enabled": true,<br/>  "max_unavailable": null,<br/>  "min_available": 1<br/>}</pre> | no |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | Number of Grafana Alloy replicas. NOTE: Only valid for `kubernetes_kind = "deployment"`. | `number` | `1` | no |
 | <a name="input_stability_level"></a> [stability\_level](#input\_stability\_level) | n/a | `string` | `"generally-available"` | no |

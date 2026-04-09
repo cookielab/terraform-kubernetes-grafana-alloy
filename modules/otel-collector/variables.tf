@@ -128,9 +128,10 @@ variable "otel" {
     grpc_port                 = optional(number, 4317)
     datadog_receiver_enabled  = optional(bool, false)
     datadog_port              = optional(number, 8126)
+    bearer_token              = optional(string, null)
   })
   default     = {}
-  description = "Grafana Alloy OTel settings"
+  description = "Grafana Alloy OTel settings. Set bearer_token to require Bearer Token authentication on the OTLP receiver."
 }
 
 variable "kubernetes_kind" {
