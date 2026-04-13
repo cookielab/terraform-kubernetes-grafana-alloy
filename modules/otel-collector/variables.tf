@@ -132,9 +132,22 @@ variable "otel" {
     datadog_receiver_enabled  = optional(bool, false)
     datadog_port              = optional(number, 8126)
     bearer_token              = optional(string, null)
+    logs_enabled              = optional(bool, false)
   })
   default     = {}
-  description = "Grafana Alloy OTel settings. Set bearer_token to require Bearer Token authentication on the OTLP receiver."
+  description = "Grafana Alloy OTel settings. Set bearer_token to require Bearer Token authentication on the OTLP receiver. Set logs_enabled = true to also receive and forward OTLP logs to Loki."
+}
+
+variable "loki" {
+  type = object({
+    url          = optional(string, "http://loki:3100")
+    tenant_id    = optional(string, "default")
+    auth_enabled = optional(bool, false)
+    username     = optional(string, null)
+    password     = optional(string, null)
+  })
+  default     = {}
+  description = "Loki configuration for log forwarding. Required when otel.logs_enabled = true."
 }
 
 variable "kubernetes_kind" {

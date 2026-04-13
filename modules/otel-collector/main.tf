@@ -31,6 +31,14 @@ module "grafana_alloy" {
     datadog_receiver_enabled  = var.otel.datadog_receiver_enabled
     datadog_port              = var.otel.datadog_port
     bearer_token              = var.otel.bearer_token
+    logs_enabled              = var.otel.logs_enabled
+  }
+  loki = {
+    url          = var.loki.url
+    tenant_id    = var.loki.tenant_id
+    auth_enabled = var.loki.auth_enabled
+    username     = var.loki.username
+    password     = var.loki.password
   }
   config = concat(var.config, [<<-EOF
     otel_collector "default" {

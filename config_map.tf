@@ -40,6 +40,8 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
             otel_datadog_receiver_enabled  = var.otel.datadog_receiver_enabled
             otel_datadog_port              = var.otel.datadog_port
             otel_bearer_token_enabled      = var.otel.bearer_token != null
+            otel_logs_enabled              = var.otel.logs_enabled
+            loki_auth_enabled              = var.loki.auth_enabled
           }) : "",
           var.integrations.loki_logs ? templatefile("${path.module}/templates/loki_pod_logs.river.tmpl", {
             scrape_pods_global     = var.loki.scrape_pods_global

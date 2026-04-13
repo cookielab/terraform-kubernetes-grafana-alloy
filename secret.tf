@@ -10,7 +10,7 @@ resource "kubernetes_secret_v1" "grafana_alloy" {
       var.otel.tenant_id != null ? { GRAFANA_ALLOY_OTEL_TENANT = var.otel.tenant_id } : {},
       var.otel.bearer_token != null ? { GRAFANA_ALLOY_OTLP_BEARER_TOKEN = var.otel.bearer_token } : {}
     ) : {},
-    var.integrations.loki_logs ? {
+    (var.integrations.loki_logs || (var.integrations.otel_collector && var.otel.logs_enabled)) ? {
       LOKI_URL       = var.loki.url
       LOKI_TENANT_ID = var.loki.tenant_id
       LOKI_USERNAME  = var.loki.username
