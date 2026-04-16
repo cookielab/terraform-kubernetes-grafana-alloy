@@ -34,11 +34,12 @@ module "grafana_alloy" {
     logs_enabled              = var.otel.logs_enabled
   }
   loki = {
-    url          = var.loki.url
-    tenant_id    = var.loki.tenant_id
-    auth_enabled = var.loki.auth_enabled
-    username     = var.loki.username
-    password     = var.loki.password
+    url            = var.loki.url
+    tenant_id      = var.loki.tenant_id
+    auth_enabled   = var.loki.auth_enabled
+    username       = var.loki.username
+    password       = var.loki.password
+    remote_timeout = var.loki.remote_timeout
   }
   config = concat(var.config, [<<-EOF
     otel_collector "default" {

@@ -210,6 +210,7 @@ variable "loki" {
     username               = optional(string, "admin")
     password               = optional(string, "admin")
     auth_enabled           = optional(bool, false)
+    remote_timeout         = optional(string, "30s")
     scrape_pods_global     = optional(bool, true)
     scrape_pods_annotation = optional(string, "loki.logs.enabled")
     scrape_logs_method     = optional(string, "api")

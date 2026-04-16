@@ -189,6 +189,7 @@ declare "otel_collector" {
     endpoint {
       url       = sys.env("LOKI_URL")
       tenant_id = sys.env("LOKI_TENANT_ID")
+      remote_timeout = "${loki_remote_timeout}"
 %{ if loki_auth_enabled }
       basic_auth {
         username = sys.env("LOKI_USERNAME")

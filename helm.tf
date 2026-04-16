@@ -46,7 +46,7 @@ resource "helm_release" "grafana_alloy" {
       clustering = {
         enabled = var.clustering_enabled
       }
-      stabilityLevel = var.stability_level
+      stabilityLevel = local.stability_level
       configMap = {
         create = false
         name   = kubernetes_config_map_v1.grafana_alloy.metadata[0].name

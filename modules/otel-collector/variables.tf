@@ -140,11 +140,12 @@ variable "otel" {
 
 variable "loki" {
   type = object({
-    url          = optional(string, "http://loki:3100")
-    tenant_id    = optional(string, "default")
-    auth_enabled = optional(bool, false)
-    username     = optional(string, null)
-    password     = optional(string, null)
+    url            = optional(string, "http://loki:3100")
+    tenant_id      = optional(string, "default")
+    auth_enabled   = optional(bool, false)
+    username       = optional(string, null)
+    password       = optional(string, null)
+    remote_timeout = optional(string, "30s")
   })
   default     = {}
   description = "Loki configuration for log forwarding. Required when otel.logs_enabled = true."

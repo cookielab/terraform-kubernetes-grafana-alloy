@@ -15,6 +15,9 @@ locals {
     }
   }
 
+  deltatocumulative_enabled = var.integrations.otel_collector
+  stability_level           = local.deltatocumulative_enabled ? "experimental" : var.stability_level
+
   otel_extra_ports = var.integrations.otel_collector ? concat(
     [
       {
