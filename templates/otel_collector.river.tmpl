@@ -112,10 +112,16 @@ declare "otel_collector" {
         otelcol.connector.spanmetrics.default.input,
         otelcol.processor.batch.default.input,
       ]
-      metrics = [otelcol.processor.batch.default.input]
+      metrics = [otelcol.processor.deltatocumulative.default.input]
 %{ if otel_logs_enabled }
       logs    = [otelcol.processor.batch.default.input]
 %{ endif }
+    }
+  }
+
+  otelcol.processor.deltatocumulative "default" {
+    output {
+      metrics = [otelcol.processor.batch.default.input]
     }
   }
 
