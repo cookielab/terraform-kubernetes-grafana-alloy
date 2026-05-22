@@ -138,6 +138,12 @@ declare "otel_collector" {
   }
 
   otelcol.connector.spanmetrics "default" {
+%{ for dim in otel_span_metrics_dimensions ~}
+    dimension {
+      name = "${dim}"
+    }
+%{ endfor ~}
+
     histogram {
       exponential {}
     }

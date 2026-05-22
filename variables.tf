@@ -128,6 +128,7 @@ variable "otel" {
     endpoint                  = optional(string, "http://tempo:4318")
     tenant_id                 = optional(string, null)
     service_graphs_dimensions = optional(list(string), [])
+    span_metrics_dimensions   = optional(list(string), [])
     datadog_receiver_enabled  = optional(bool, false)
     datadog_port              = optional(number, 8126)
     bearer_token              = optional(string, null)

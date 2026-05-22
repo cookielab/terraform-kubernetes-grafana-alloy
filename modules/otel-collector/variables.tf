@@ -127,6 +127,7 @@ variable "otel" {
     endpoint                  = optional(string, "http://tempo:9090")
     tenant_id                 = optional(string, null)
     service_graphs_dimensions = optional(list(string), [])
+    span_metrics_dimensions   = optional(list(string), [])
     http_port                 = optional(number, 4318)
     grpc_port                 = optional(number, 4317)
     datadog_receiver_enabled  = optional(bool, false)

@@ -36,6 +36,7 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
             otel_http_port                 = var.otel.http_port
             otel_grpc_port                 = var.otel.grpc_port
             otel_service_graphs_dimensions = var.otel.service_graphs_dimensions
+            otel_span_metrics_dimensions   = var.otel.span_metrics_dimensions
             otel_tenant_id                 = var.otel.tenant_id
             otel_datadog_receiver_enabled  = var.otel.datadog_receiver_enabled
             otel_datadog_port              = var.otel.datadog_port

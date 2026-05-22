@@ -21,6 +21,13 @@ module "grafana_alloy_otel_collector" {
   otel = {
     endpoint                  = "https://tempo.example.com:443"
     service_graphs_dimensions = ["http.method"]
+    span_metrics_dimensions = [
+      "deployment.environment",
+      "http.method",
+      "http.route",
+      "http.response.status_code",
+      "http.status_code",
+    ]
 
     # Require Bearer Token on all OTLP receivers (HTTP + gRPC)
     bearer_token = var.otlp_bearer_token
