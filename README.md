@@ -229,7 +229,7 @@ Ingress routes to the Alloy UI on port `12345` by default. To expose another HTT
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0, < 2.0.0 |
 | <a name="requirement_helm"></a> [helm](#requirement\_helm) | >= 3.0.0 |
 | <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 2.0.0 |
@@ -237,9 +237,9 @@ Ingress routes to the Alloy UI on port `12345` by default. To expose another HTT
 ## Providers
 
 | Name | Version |
-|------|---------|
-| <a name="provider_helm"></a> [helm](#provider\_helm) | 3.1.1 |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 3.0.1 |
+| ---- | ------- |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | >= 3.0.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | >= 2.0.0 |
 
 ## Modules
 
@@ -248,7 +248,7 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [helm_release.grafana_alloy](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [kubernetes_config_map_v1.grafana_alloy](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/config_map_v1) | resource |
 | [kubernetes_secret_v1.grafana_alloy](https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret_v1) | resource |
@@ -256,7 +256,7 @@ No modules.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_agent_name"></a> [agent\_name](#input\_agent\_name) | Name of the Grafana Alloy. | `string` | n/a | yes |
 | <a name="input_agent_resources"></a> [agent\_resources](#input\_agent\_resources) | Resources for the Grafana Alloy | <pre>object({<br/>    requests = optional(object({<br/>      cpu    = optional(string, "100m")<br/>      memory = optional(string, "256Mi")<br/>    }), {})<br/>    limits = optional(object({<br/>      cpu    = optional(string, null)<br/>      memory = optional(string, null)<br/>    }), {})<br/>  })</pre> | `{}` | no |
 | <a name="input_autoscaling"></a> [autoscaling](#input\_autoscaling) | Autoscaling (HPA) configuration for Grafana Alloy. Automatically enabled when clustering\_enabled = true. | <pre>object({<br/>    min_replicas                      = optional(number, 2)<br/>    max_replicas                      = optional(number, 5)<br/>    target_cpu_utilization_percentage = optional(number, 80)<br/>  })</pre> | `{}` | no |
@@ -274,16 +274,16 @@ No modules.
 | <a name="input_image"></a> [image](#input\_image) | Image registry for Grafana Alloy. This is meant to be used with custom pull-through proxies/registries. | <pre>object({<br/>    registry   = optional(string, "docker.io")<br/>    repository = optional(string, "grafana/alloy")<br/>  })</pre> | `{}` | no |
 | <a name="input_ingress"></a> [ingress](#input\_ingress) | Ingress configuration for Grafana Alloy. The selected ingress port defaults to the Alloy UI port and is also exposed through the Service when needed. | <pre>object({<br/>    enabled            = optional(bool, false)<br/>    ingress_class_name = optional(string, null)<br/>    annotations        = optional(map(string), {})<br/>    labels             = optional(map(string), {})<br/>    path               = optional(string, "/")<br/>    path_type          = optional(string, "Prefix")<br/>    hosts              = optional(list(string), [])<br/>    extra_paths        = optional(list(any), [])<br/>    tls = optional(list(object({<br/>      secret_name = optional(string)<br/>      hosts       = optional(list(string), [])<br/>    })), [])<br/>    port = optional(number, 12345)<br/>  })</pre> | `{}` | no |
 | <a name="input_integrations"></a> [integrations](#input\_integrations) | Grafana Alloy integrations configuration | <pre>object({<br/>    otel_collector       = optional(bool, false)<br/>    loki_logs            = optional(bool, false)<br/>    k8s_cadvisor         = optional(bool, false)<br/>    k8s_kubelet          = optional(bool, false)<br/>    k8s_mimir_rules      = optional(bool, false)<br/>    k8s_pods             = optional(bool, false)<br/>    k8s_services         = optional(bool, false)<br/>    node_exporter        = optional(bool, false)<br/>    aws_alb              = optional(bool, false)<br/>    aws_rds              = optional(bool, false)<br/>    aws_sqs              = optional(bool, false)<br/>    aws_mq               = optional(bool, false)<br/>    aws_opensearch       = optional(bool, false)<br/>    remote_write_metrics = optional(bool, true)<br/>    kafka_jmx_metrics    = optional(bool, false)<br/>  })</pre> | `{}` | no |
-| <a name="input_k8s_pods"></a> [k8s\_pods](#input\_k8s\_pods) | Grafana Alloy scrape settings for K8S pods | <pre>object({<br/>    scrape_pods_global     = optional(bool, false)<br/>    scrape_pods_annotation = optional(string, "prometheus_io_scrape")<br/>  })</pre> | `{}` | no |
+| <a name="input_k8s_pods"></a> [k8s\_pods](#input\_k8s\_pods) | Grafana Alloy scrape settings for K8S pods | <pre>object({<br/>    scrape_pods_global     = optional(bool, false)<br/>    scrape_pods_annotation = optional(string, "prometheus_io_scrape")<br/>    label_drop_regex       = optional(string, "")<br/>    label_keep_regex       = optional(string, "")<br/>  })</pre> | `{}` | no |
 | <a name="input_kafka_jmx_metrics"></a> [kafka\_jmx\_metrics](#input\_kafka\_jmx\_metrics) | Grafana Alloy scrape JMX kafka metrics | <pre>object({<br/>    scrape_interval       = optional(string, "1m")<br/>    scrape_timeout        = optional(string, "30s")<br/>    scrape_period         = optional(string, "1m")<br/>    kafka_broker_list     = optional(list(string), [])<br/>    distinguisher         = optional(string, "default")<br/>    metrics_endpoint_path = optional(string, "/metrics")<br/>  })</pre> | `{}` | no |
 | <a name="input_kubernetes_cluster_name"></a> [kubernetes\_cluster\_name](#input\_kubernetes\_cluster\_name) | Kubernetes cluster name. NOTE: This gets injected into labels/attributes of all collected data. | `string` | n/a | yes |
 | <a name="input_kubernetes_kind"></a> [kubernetes\_kind](#input\_kubernetes\_kind) | Grafana Alloy Kubernetes resource kind. Valid values are "deployment" or "daemonset". If you want to use clustering, you should use "deployment" with multiple replicas. | `string` | `"deployment"` | no |
 | <a name="input_kubernetes_namespace"></a> [kubernetes\_namespace](#input\_kubernetes\_namespace) | Kubernetes namespace to deploy the Grafana Alloy into. NOTE: The namespace must exist and be available for deployment! | `string` | n/a | yes |
 | <a name="input_kubernetes_security_context"></a> [kubernetes\_security\_context](#input\_kubernetes\_security\_context) | Kubernetes security context configuration for the Grafana Alloy. This is needed with node\_exporter to run privileged and as root (UID 0). | <pre>object({<br/>    runAsUser  = optional(number)<br/>    privileged = optional(bool)<br/>  })</pre> | `{}` | no |
 | <a name="input_live_debug"></a> [live\_debug](#input\_live\_debug) | Enable live debug for the Grafana Alloy | `bool` | `false` | no |
-| <a name="input_loki"></a> [loki](#input\_loki) | Grafana Alloy scrape settings for Loki logs | <pre>object({<br/>    url                    = optional(string, "http://loki:3100")<br/>    tenant_id              = optional(string, "default")<br/>    username               = optional(string, "admin")<br/>    password               = optional(string, "admin")<br/>    auth_enabled           = optional(bool, false)<br/>    scrape_pods_global     = optional(bool, true)<br/>    scrape_pods_annotation = optional(string, "loki.logs.enabled")<br/>    scrape_logs_method     = optional(string, "api")<br/>  })</pre> | `{}` | no |
-| <a name="input_metrics"></a> [metrics](#input\_metrics) | Grafana Alloy metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API. | <pre>object({<br/>    endpoint     = optional(string, "http://mimir:9090")<br/>    tenant       = optional(string, null)<br/>    backend_type = optional(string, "mimir")<br/>    ssl_enabled  = optional(bool, true)<br/>  })</pre> | `{}` | no |
-| <a name="input_otel"></a> [otel](#input\_otel) | Grafana Alloy OTel configuration. Set datadog\_receiver\_enabled = true to additionally receive Datadog-format traces and metrics on datadog\_port. Set bearer\_token to require Bearer Token authentication on the OTLP receiver. | <pre>object({<br/>    http_port                 = optional(number, 4318)<br/>    grpc_port                 = optional(number, 4317)<br/>    endpoint                  = optional(string, "http://tempo:4318")<br/>    tenant_id                 = optional(string, null)<br/>    service_graphs_dimensions = optional(list(string), [])<br/>    datadog_receiver_enabled  = optional(bool, false)<br/>    datadog_port              = optional(number, 8126)<br/>    bearer_token              = optional(string, null)<br/>  })</pre> | `{}` | no |
+| <a name="input_loki"></a> [loki](#input\_loki) | Grafana Alloy scrape settings for Loki logs | <pre>object({<br/>    url                    = optional(string, "http://loki:3100")<br/>    tenant_id              = optional(string, "default")<br/>    username               = optional(string, "admin")<br/>    password               = optional(string, "admin")<br/>    auth_enabled           = optional(bool, false)<br/>    remote_timeout         = optional(string, "30s")<br/>    scrape_pods_global     = optional(bool, true)<br/>    scrape_pods_annotation = optional(string, "loki.logs.enabled")<br/>    scrape_logs_method     = optional(string, "api")<br/>  })</pre> | `{}` | no |
+| <a name="input_metrics"></a> [metrics](#input\_metrics) | Grafana Alloy metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API. Use bearer\_token for Bearer auth or username+password for Basic auth. | <pre>object({<br/>    endpoint     = optional(string, "http://mimir:9090")<br/>    tenant       = optional(string, null)<br/>    backend_type = optional(string, "mimir")<br/>    ssl_enabled  = optional(bool, true)<br/>    bearer_token = optional(string, null)<br/>    username     = optional(string, null)<br/>    password     = optional(string, null)<br/>  })</pre> | `{}` | no |
+| <a name="input_otel"></a> [otel](#input\_otel) | Grafana Alloy OTel configuration. Set datadog\_receiver\_enabled = true to additionally receive Datadog-format traces and metrics on datadog\_port. Set bearer\_token to require Bearer Token authentication on the OTLP receiver. | <pre>object({<br/>    http_port                 = optional(number, 4318)<br/>    grpc_port                 = optional(number, 4317)<br/>    endpoint                  = optional(string, "http://tempo:4318")<br/>    tenant_id                 = optional(string, null)<br/>    service_graphs_dimensions = optional(list(string), [])<br/>    span_metrics_dimensions   = optional(list(string), [])<br/>    datadog_receiver_enabled  = optional(bool, false)<br/>    datadog_port              = optional(number, 8126)<br/>    bearer_token              = optional(string, null)<br/>    logs_enabled              = optional(bool, false)<br/>  })</pre> | `{}` | no |
 | <a name="input_pod_disruption_budget"></a> [pod\_disruption\_budget](#input\_pod\_disruption\_budget) | Grafana Alloy pod disruption budget configuration | <pre>object({<br/>    enabled         = optional(bool)<br/>    min_available   = optional(number)<br/>    max_unavailable = optional(number)<br/>  })</pre> | <pre>{<br/>  "enabled": true,<br/>  "max_unavailable": null,<br/>  "min_available": 1<br/>}</pre> | no |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | Number of Grafana Alloy replicas. NOTE: Only valid for `kubernetes_kind = "deployment"`. | `number` | `1` | no |
 | <a name="input_stability_level"></a> [stability\_level](#input\_stability\_level) | n/a | `string` | `"generally-available"` | no |
@@ -291,6 +291,6 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_otel_endpoints"></a> [otel\_endpoints](#output\_otel\_endpoints) | Exposed OTel endpoints |
 <!-- END_TF_DOCS -->

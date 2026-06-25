@@ -36,7 +36,7 @@ module "loki_logs" {
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0, < 2.0.0 |
 
 ## Providers
@@ -46,7 +46,7 @@ No providers.
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_grafana_alloy"></a> [grafana\_alloy](#module\_grafana\_alloy) | ../../ | n/a |
 
 ## Resources
@@ -56,7 +56,8 @@ No resources.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
+| <a name="input_agent_name"></a> [agent\_name](#input\_agent\_name) | Name suffix of the Grafana Alloy release. The final Helm release name will be grafana-alloy-{agent\_name}. | `string` | `"loki-logs"` | no |
 | <a name="input_agent_resources"></a> [agent\_resources](#input\_agent\_resources) | Resources for the Grafana OTel agent | <pre>object({<br/>    requests = optional(object({<br/>      cpu    = optional(string, "500m")<br/>      memory = optional(string, "512Mi")<br/>    }), {})<br/>    limits = optional(object({<br/>      cpu    = optional(string, null)<br/>      memory = optional(string, null)<br/>    }), {})<br/>  })</pre> | `{}` | no |
 | <a name="input_autoscaling"></a> [autoscaling](#input\_autoscaling) | Autoscaling (HPA) configuration. Active when clustering\_enabled = true and scrape\_logs\_method != "file". | <pre>object({<br/>    min_replicas                      = optional(number, 2)<br/>    max_replicas                      = optional(number, 5)<br/>    target_cpu_utilization_percentage = optional(number, 80)<br/>  })</pre> | `{}` | no |
 | <a name="input_aws"></a> [aws](#input\_aws) | n/a | <pre>object({<br/>    account = optional(string, "")<br/>    region  = optional(string, "")<br/>  })</pre> | n/a | yes |
@@ -72,7 +73,7 @@ No resources.
 | <a name="input_kubernetes_namespace"></a> [kubernetes\_namespace](#input\_kubernetes\_namespace) | Kubernetes namespace | `string` | n/a | yes |
 | <a name="input_live_debug"></a> [live\_debug](#input\_live\_debug) | Enable live debug for the Grafana Alloy | `bool` | `false` | no |
 | <a name="input_loki"></a> [loki](#input\_loki) | Grafana Alloy scrape settings for Loki logs | <pre>object({<br/>    url                    = optional(string, "http://loki:3100")<br/>    tenant_id              = optional(string, "default")<br/>    username               = optional(string, "admin")<br/>    password               = optional(string, "admin")<br/>    scrape_pods_global     = optional(bool, true)<br/>    scrape_pods_annotation = optional(string, "loki.logs.enabled")<br/>    scrape_logs_method     = optional(string, "api")<br/>  })</pre> | `{}` | no |
-| <a name="input_metrics"></a> [metrics](#input\_metrics) | Grafana Alloy metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API. | <pre>object({<br/>    endpoint     = optional(string, "http://mimir:9090")<br/>    tenant       = optional(string, "default")<br/>    backend_type = optional(string, "mimir")<br/>  })</pre> | `{}` | no |
+| <a name="input_metrics"></a> [metrics](#input\_metrics) | Grafana Alloy metrics endpoint of Prometheus-compatible receiver. NOTE: You must provide the base URL of the API. | <pre>object({<br/>    endpoint     = optional(string, "http://mimir:9090")<br/>    tenant       = optional(string, "default")<br/>    backend_type = optional(string, "mimir")<br/>    bearer_token = optional(string, null)<br/>    username     = optional(string, null)<br/>    password     = optional(string, null)<br/>  })</pre> | `{}` | no |
 | <a name="input_pod_disruption_budget"></a> [pod\_disruption\_budget](#input\_pod\_disruption\_budget) | Grafana Alloy pod disruption budget configuration | <pre>object({<br/>    enabled         = optional(bool)<br/>    min_available   = optional(number)<br/>    max_unavailable = optional(number)<br/>  })</pre> | <pre>{<br/>  "enabled": true,<br/>  "max_unavailable": null,<br/>  "min_available": 1<br/>}</pre> | no |
 | <a name="input_replicas"></a> [replicas](#input\_replicas) | Number of Grafana Alloy replicas | `number` | `1` | no |
 | <a name="input_stability_level"></a> [stability\_level](#input\_stability\_level) | Stability level for the Grafana Alloy | `string` | `"generally-available"` | no |

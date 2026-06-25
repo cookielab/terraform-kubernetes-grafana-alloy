@@ -14,6 +14,8 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
           var.integrations.k8s_pods ? templatefile("${path.module}/templates/k8s_pods.river.tmpl", {
             scrape_pods_global     = var.k8s_pods.scrape_pods_global
             scrape_pods_annotation = var.k8s_pods.scrape_pods_annotation
+            label_drop_regex       = var.k8s_pods.label_drop_regex
+            label_keep_regex       = var.k8s_pods.label_keep_regex
           }) : "",
           var.integrations.k8s_services ? file("${path.module}/templates/k8s_services.river.tmpl") : "",
           var.integrations.node_exporter ? file("${path.module}/templates/node_exporter.river.tmpl") : "",
