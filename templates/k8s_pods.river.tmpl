@@ -180,6 +180,19 @@ declare "k8s_pods" {
       regex         = "__meta_kubernetes_pod_label_app_gitlab_com_(.+)"
       replacement   = "k8s_gl_$1"
     }
+
+    %{~ if label_drop_regex != "" }
+    rule {
+      action = "labeldrop"
+      regex  = "${label_drop_regex}"
+    }
+    %{~ endif ~}
+    %{~ if label_keep_regex != "" }
+    rule {
+      action = "labelkeep"
+      regex  = "${label_keep_regex}"
+    }
+    %{~ endif ~}
   }
 
   prometheus.scrape "pods" {
