@@ -190,6 +190,8 @@ variable "k8s_pods" {
   type = object({
     scrape_pods_global     = optional(bool, false)
     scrape_pods_annotation = optional(string, "prometheus_io_scrape")
+    label_drop_regex       = optional(string, "")
+    label_keep_regex       = optional(string, "")
   })
   default     = {}
   description = "Grafana Alloy scrape settings for K8S pods"
