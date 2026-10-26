@@ -31,6 +31,8 @@ module "grafana_alloy" {
     span_metrics_dimensions   = var.otel.span_metrics_dimensions
     datadog_receiver_enabled  = var.otel.datadog_receiver_enabled
     datadog_port              = var.otel.datadog_port
+    statsd_receiver_enabled   = var.otel.statsd_receiver_enabled
+    statsd_port               = var.otel.statsd_port
     bearer_token              = var.otel.bearer_token
     logs_enabled              = var.otel.logs_enabled
   }

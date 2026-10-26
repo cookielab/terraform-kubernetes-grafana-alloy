@@ -42,6 +42,8 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
             otel_tenant_id                 = var.otel.tenant_id
             otel_datadog_receiver_enabled  = var.otel.datadog_receiver_enabled
             otel_datadog_port              = var.otel.datadog_port
+            otel_statsd_receiver_enabled   = var.otel.statsd_receiver_enabled
+            otel_statsd_port               = var.otel.statsd_port
             otel_bearer_token_enabled      = var.otel.bearer_token != null
             otel_logs_enabled              = var.otel.logs_enabled
             loki_auth_enabled              = var.loki.auth_enabled

@@ -88,6 +88,33 @@ resource "helm_release" "grafana_alloy" {
           "eks.amazonaws.com/role-arn" = var.iam_role_arn
         }
       }
+    }) : yamlencode({}),
+    # Chart >= 1.6.0 no longer grants nodes/proxy, but k8s_kubelet scrapes through the API server node proxy.
+    # Helm replaces lists, so the chart default clusterRules are repeated here.
+    var.integrations.k8s_kubelet ? yamlencode({
+      rbac = {
+        clusterRules = [
+          {
+            apiGroups = [""]
+            resources = ["nodes", "nodes/proxy"]
+            verbs     = ["get", "list", "watch"]
+          },
+          {
+            apiGroups = [""]
+            resources = ["nodes/pods"]
+            verbs     = ["get", "list", "watch"]
+          },
+          {
+            apiGroups = [""]
+            resources = ["nodes/metrics"]
+            verbs     = ["get", "list", "watch"]
+          },
+          {
+            nonResourceURLs = ["/metrics"]
+            verbs           = ["get"]
+          },
+        ]
+      }
     }) : yamlencode({})
   ]
 }

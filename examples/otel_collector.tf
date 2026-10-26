@@ -6,7 +6,7 @@ variable "otlp_bearer_token" {
 # Single-instance OTel Collector with Traefik ingress and Bearer Token auth
 module "grafana_alloy_otel_collector" {
   source        = "git::ssh://git@github.com/cookielab/terraform-kubernetes-grafana-alloy.git//modules/otel-collector?ref=v1.0.6-rc3"
-  chart_version = "1.0.2"
+  chart_version = "1.14.3"
 
   kubernetes_cluster_name = data.aws_eks_cluster.main.name
   kubernetes_namespace    = "monitoring"

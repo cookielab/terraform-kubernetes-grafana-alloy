@@ -53,6 +53,23 @@ declare "otel_collector" {
   }
 %{ endif }
 
+%{ if otel_statsd_receiver_enabled }
+  // StatsD / DogStatsD receiver (UDP only), exposed as Prometheus metrics
+
+  prometheus.exporter.statsd "default" {
+    listen_udp           = "0.0.0.0:${otel_statsd_port}"
+    listen_tcp           = ""
+    parse_dogstatsd_tags = true
+  }
+
+  prometheus.scrape "statsd" {
+    honor_labels = true
+
+    targets    = prometheus.exporter.statsd.default.targets
+    forward_to = [argument.metrics_output.value]
+  }
+%{ endif }
+
   otelcol.processor.attributes "default" {
     action {
       action = "upsert"

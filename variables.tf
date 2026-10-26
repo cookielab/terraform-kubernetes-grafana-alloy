@@ -90,7 +90,7 @@ variable "controller_resources" {
 variable "chart_version" {
   type        = string
   description = "Helm chart version of Grafana Alloy"
-  default     = "1.0.2"
+  default     = "1.14.3"
 }
 
 variable "image" {
@@ -131,11 +131,13 @@ variable "otel" {
     span_metrics_dimensions   = optional(list(string), [])
     datadog_receiver_enabled  = optional(bool, false)
     datadog_port              = optional(number, 8126)
+    statsd_receiver_enabled   = optional(bool, false)
+    statsd_port               = optional(number, 8125)
     bearer_token              = optional(string, null)
     logs_enabled              = optional(bool, false)
   })
   default     = {}
-  description = "Grafana Alloy OTel configuration. Set datadog_receiver_enabled = true to additionally receive Datadog-format traces and metrics on datadog_port. Set bearer_token to require Bearer Token authentication on the OTLP receiver."
+  description = "Grafana Alloy OTel configuration. Set datadog_receiver_enabled = true to additionally receive Datadog-format traces and metrics on datadog_port. Set statsd_receiver_enabled = true to receive StatsD/DogStatsD metrics over UDP on statsd_port and forward them as Prometheus metrics. Set bearer_token to require Bearer Token authentication on the OTLP receiver."
 }
 
 variable "host_volumes" {

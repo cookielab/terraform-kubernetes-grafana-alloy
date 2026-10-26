@@ -60,7 +60,7 @@ variable "controller_resources" {
 variable "chart_version" {
   type        = string
   description = "Helm chart version of Grafana Alloy"
-  default     = "1.0.2"
+  default     = "1.14.3"
 }
 
 variable "image" {

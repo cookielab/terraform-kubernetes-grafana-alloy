@@ -40,6 +40,14 @@ locals {
         port       = var.otel.datadog_port
         protocol   = "TCP"
       }
+    ] : [],
+    var.otel.statsd_receiver_enabled ? [
+      {
+        name       = "statsd"
+        targetPort = var.otel.statsd_port
+        port       = var.otel.statsd_port
+        protocol   = "UDP"
+      }
     ] : []
   ) : []
 
