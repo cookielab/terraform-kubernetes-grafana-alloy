@@ -42,6 +42,8 @@ declare "otel_collector" {
 %{ if otel_datadog_receiver_enabled }
   otelcol.receiver.datadog "default" {
     endpoint = "0.0.0.0:${otel_datadog_port}"
+    // Alloy >= 1.21 defaults to 0, which fails to build; 100 is the upstream receiver default
+    trace_id_cache_size = 100
 
     output {
       traces  = [otelcol.processor.attributes.default.input]
