@@ -33,6 +33,7 @@ module "grafana_alloy" {
     datadog_port              = var.otel.datadog_port
     statsd_receiver_enabled   = var.otel.statsd_receiver_enabled
     statsd_port               = var.otel.statsd_port
+    statsd_mapping_config     = var.otel.statsd_mapping_config
     bearer_token              = var.otel.bearer_token
     logs_enabled              = var.otel.logs_enabled
   }

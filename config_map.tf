@@ -4,7 +4,7 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
     namespace = var.kubernetes_namespace
   }
 
-  data = {
+  data = merge({
     (local.agent_config_key) = join("\n", concat(
       flatten(var.default_config_enabled ? [
         [
@@ -44,6 +44,7 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
             otel_datadog_port              = var.otel.datadog_port
             otel_statsd_receiver_enabled   = var.otel.statsd_receiver_enabled
             otel_statsd_port               = var.otel.statsd_port
+            otel_statsd_mapping_path       = local.statsd_mapping_enabled ? "/etc/alloy/${local.statsd_mapping_key}" : ""
             otel_bearer_token_enabled      = var.otel.bearer_token != null
             otel_logs_enabled              = var.otel.logs_enabled
             loki_auth_enabled              = var.loki.auth_enabled
@@ -62,5 +63,7 @@ resource "kubernetes_config_map_v1" "grafana_alloy" {
       ] : []),
       flatten(var.config),
     ))
-  }
+    }, local.statsd_mapping_enabled ? {
+    (local.statsd_mapping_key) = var.otel.statsd_mapping_config
+  } : {})
 }

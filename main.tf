@@ -15,6 +15,10 @@ locals {
     }
   }
 
+  # The chart mounts the whole ConfigMap at /etc/alloy, so extra keys are readable as files there
+  statsd_mapping_key     = "statsd_mapping.yaml"
+  statsd_mapping_enabled = var.integrations.otel_collector && var.otel.statsd_receiver_enabled && var.otel.statsd_mapping_config != null
+
   deltatocumulative_enabled = var.integrations.otel_collector
   stability_level           = local.deltatocumulative_enabled ? "experimental" : var.stability_level
 

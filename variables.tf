@@ -133,11 +133,17 @@ variable "otel" {
     datadog_port              = optional(number, 8126)
     statsd_receiver_enabled   = optional(bool, false)
     statsd_port               = optional(number, 8125)
+    statsd_mapping_config     = optional(string, null)
     bearer_token              = optional(string, null)
     logs_enabled              = optional(bool, false)
   })
   default     = {}
-  description = "Grafana Alloy OTel configuration. Set datadog_receiver_enabled = true to additionally receive Datadog-format traces and metrics on datadog_port. Set statsd_receiver_enabled = true to receive StatsD/DogStatsD metrics over UDP on statsd_port and forward them as Prometheus metrics. Set bearer_token to require Bearer Token authentication on the OTLP receiver."
+  description = "Grafana Alloy OTel configuration. Set datadog_receiver_enabled = true to additionally receive Datadog-format traces and metrics on datadog_port. Set statsd_receiver_enabled = true to receive StatsD/DogStatsD metrics over UDP on statsd_port and forward them as Prometheus metrics; statsd_mapping_config optionally takes a statsd_exporter mapping config (YAML), e.g. to store timers/distributions as histograms. Set bearer_token to require Bearer Token authentication on the OTLP receiver."
+
+  validation {
+    condition     = var.otel.statsd_mapping_config == null || can(yamldecode(var.otel.statsd_mapping_config).mappings)
+    error_message = "otel.statsd_mapping_config must be a statsd_exporter mapping config in YAML with a top-level \"mappings\" key."
+  }
 }
 
 variable "host_volumes" {

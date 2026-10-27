@@ -134,11 +134,12 @@ variable "otel" {
     datadog_port              = optional(number, 8126)
     statsd_receiver_enabled   = optional(bool, false)
     statsd_port               = optional(number, 8125)
+    statsd_mapping_config     = optional(string, null)
     bearer_token              = optional(string, null)
     logs_enabled              = optional(bool, false)
   })
   default     = {}
-  description = "Grafana Alloy OTel settings. Set bearer_token to require Bearer Token authentication on the OTLP receiver. Set logs_enabled = true to also receive and forward OTLP logs to Loki. Set statsd_receiver_enabled = true to receive StatsD/DogStatsD metrics over UDP on statsd_port."
+  description = "Grafana Alloy OTel settings. Set bearer_token to require Bearer Token authentication on the OTLP receiver. Set logs_enabled = true to also receive and forward OTLP logs to Loki. Set statsd_receiver_enabled = true to receive StatsD/DogStatsD metrics over UDP on statsd_port; statsd_mapping_config optionally takes a statsd_exporter mapping config (YAML), e.g. to store timers/distributions as histograms."
 }
 
 variable "loki" {

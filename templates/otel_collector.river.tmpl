@@ -62,12 +62,26 @@ declare "otel_collector" {
     listen_udp           = "0.0.0.0:${otel_statsd_port}"
     listen_tcp           = ""
     parse_dogstatsd_tags = true
+%{ if otel_statsd_mapping_path != "" }
+    mapping_config_path  = "${otel_statsd_mapping_path}"
+%{ endif }
+  }
+
+  // The exporter target's instance label is the same on every Alloy pod; use the
+  // host name so series from different nodes/replicas never collide
+  discovery.relabel "statsd" {
+    targets = prometheus.exporter.statsd.default.targets
+
+    rule {
+      target_label = "instance"
+      replacement  = constants.hostname
+    }
   }
 
   prometheus.scrape "statsd" {
     honor_labels = true
 
-    targets    = prometheus.exporter.statsd.default.targets
+    targets    = discovery.relabel.statsd.output
     forward_to = [argument.metrics_output.value]
   }
 %{ endif }

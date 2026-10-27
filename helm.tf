@@ -34,6 +34,11 @@ resource "helm_release" "grafana_alloy" {
         maxReplicas                    = var.autoscaling.max_replicas
         targetCPUUtilizationPercentage = var.autoscaling.target_cpu_utilization_percentage
       }
+      } : {}, local.statsd_mapping_enabled ? {
+      # The StatsD exporter reads the mapping file only on build, so roll pods when it changes
+      podAnnotations = {
+        "checksum/statsd-mapping" = sha256(var.otel.statsd_mapping_config)
+      }
     } : {})
     alloy = merge(length(local.alloy_extra_ports) > 0 ? {
       extraPorts = local.alloy_extra_ports
