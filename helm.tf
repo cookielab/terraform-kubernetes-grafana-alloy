@@ -26,7 +26,8 @@ resource "helm_release" "grafana_alloy" {
           }
         }]
       }
-      tolerations = var.global_tolerations
+      tolerations       = var.global_tolerations
+      priorityClassName = var.priority_class_name
       }, var.clustering_enabled ? {
       autoscaling = {
         enabled                        = true

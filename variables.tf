@@ -284,6 +284,12 @@ variable "host_network" {
   description = "Enable hostNetwork for the Grafana Alloy controller. When null, defaults to true for daemonset and false for deployment."
 }
 
+variable "priority_class_name" {
+  type        = string
+  default     = ""
+  description = "PriorityClass for the Grafana Alloy pods. Use e.g. \"system-node-critical\" for a daemonset so its pods can preempt workloads on full nodes."
+}
+
 variable "ingress" {
   type = object({
     enabled            = optional(bool, false)

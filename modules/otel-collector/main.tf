@@ -15,6 +15,7 @@ module "grafana_alloy" {
   iam_role_arn            = var.iam_role_arn
   stability_level         = var.stability_level
   host_network            = var.host_network
+  priority_class_name     = var.priority_class_name
   ingress                 = var.ingress
   global_tolerations      = var.global_tolerations
   pod_disruption_budget   = var.pod_disruption_budget
