@@ -141,8 +141,12 @@ declare "otel_collector" {
 
     output {
       traces = [
+%{ if otel_service_graphs_enabled ~}
         otelcol.connector.servicegraph.default.input,
+%{ endif ~}
+%{ if otel_span_metrics_enabled ~}
         otelcol.connector.spanmetrics.default.input,
+%{ endif ~}
         otelcol.processor.batch.default.input,
       ]
       metrics = [otelcol.processor.deltatocumulative.default.input]
@@ -158,6 +162,7 @@ declare "otel_collector" {
     }
   }
 
+%{ if otel_service_graphs_enabled ~}
   otelcol.connector.servicegraph "default" {
     dimensions = [
     %{ for dim in otel_service_graphs_dimensions ~}
@@ -169,6 +174,8 @@ declare "otel_collector" {
       metrics = [otelcol.processor.batch.default.input]
     }
   }
+%{ endif ~}
+%{ if otel_span_metrics_enabled ~}
 
   otelcol.connector.spanmetrics "default" {
 %{ for dim in otel_span_metrics_dimensions ~}
@@ -185,6 +192,7 @@ declare "otel_collector" {
       metrics = [otelcol.processor.batch.default.input]
     }
   }
+%{ endif ~}
 
   // Batch processor
 

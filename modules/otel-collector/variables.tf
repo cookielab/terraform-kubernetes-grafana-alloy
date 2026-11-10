@@ -126,7 +126,9 @@ variable "otel" {
   type = object({
     endpoint                  = optional(string, "http://tempo:9090")
     tenant_id                 = optional(string, null)
+    service_graphs_enabled    = optional(bool, true)
     service_graphs_dimensions = optional(list(string), [])
+    span_metrics_enabled      = optional(bool, true)
     span_metrics_dimensions   = optional(list(string), [])
     http_port                 = optional(number, 4318)
     grpc_port                 = optional(number, 4317)
@@ -139,7 +141,7 @@ variable "otel" {
     logs_enabled              = optional(bool, false)
   })
   default     = {}
-  description = "Grafana Alloy OTel settings. Set bearer_token to require Bearer Token authentication on the OTLP receiver. Set logs_enabled = true to also receive and forward OTLP logs to Loki. Set statsd_receiver_enabled = true to receive StatsD/DogStatsD metrics over UDP on statsd_port; statsd_mapping_config optionally takes a statsd_exporter mapping config (YAML), e.g. to store timers/distributions as histograms."
+  description = "Grafana Alloy OTel settings. Set service_graphs_enabled = false or span_metrics_enabled = false to drop the servicegraph or spanmetrics connector, for example when Tempo's metrics-generator computes those metrics instead. Set bearer_token to require Bearer Token authentication on the OTLP receiver. Set logs_enabled = true to also receive and forward OTLP logs to Loki. Set statsd_receiver_enabled = true to receive StatsD/DogStatsD metrics over UDP on statsd_port; statsd_mapping_config optionally takes a statsd_exporter mapping config (YAML), e.g. to store timers/distributions as histograms."
 }
 
 variable "loki" {

@@ -127,7 +127,9 @@ variable "otel" {
     grpc_port                 = optional(number, 4317)
     endpoint                  = optional(string, "http://tempo:4318")
     tenant_id                 = optional(string, null)
+    service_graphs_enabled    = optional(bool, true)
     service_graphs_dimensions = optional(list(string), [])
+    span_metrics_enabled      = optional(bool, true)
     span_metrics_dimensions   = optional(list(string), [])
     datadog_receiver_enabled  = optional(bool, false)
     datadog_port              = optional(number, 8126)
@@ -138,7 +140,7 @@ variable "otel" {
     logs_enabled              = optional(bool, false)
   })
   default     = {}
-  description = "Grafana Alloy OTel configuration. Set datadog_receiver_enabled = true to additionally receive Datadog-format traces and metrics on datadog_port. Set statsd_receiver_enabled = true to receive StatsD/DogStatsD metrics over UDP on statsd_port and forward them as Prometheus metrics; statsd_mapping_config optionally takes a statsd_exporter mapping config (YAML), e.g. to store timers/distributions as histograms. Set bearer_token to require Bearer Token authentication on the OTLP receiver."
+  description = "Grafana Alloy OTel configuration. Set service_graphs_enabled = false or span_metrics_enabled = false to drop the servicegraph or spanmetrics connector, for example when Tempo's metrics-generator computes those metrics instead. Set datadog_receiver_enabled = true to additionally receive Datadog-format traces and metrics on datadog_port. Set statsd_receiver_enabled = true to receive StatsD/DogStatsD metrics over UDP on statsd_port and forward them as Prometheus metrics; statsd_mapping_config optionally takes a statsd_exporter mapping config (YAML), e.g. to store timers/distributions as histograms. Set bearer_token to require Bearer Token authentication on the OTLP receiver."
 
   validation {
     condition     = var.otel.statsd_mapping_config == null || can(yamldecode(var.otel.statsd_mapping_config).mappings)
